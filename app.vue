@@ -3,6 +3,7 @@
     <p>{{ greeting?.greeting }}</p>
     <p>{{ date?.now?.getDate() ?? error ?? pending }}</p>
     <h1>Test</h1>
+    <Button>Refetch</Button>
   </div>
 </template>
 
