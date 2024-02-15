@@ -1,9 +1,9 @@
-import { router } from "../trpc";
-import * as hello from "../../hello";
+import { router } from '../trpc'
+import * as hello from '../../hello'
 
 export const appRouter = router({
-  ...hello,
-});
+  hello: router(hello),
+})
 
 // export type definition of API
-export type AppRouter = typeof appRouter;
+export type AppRouter = typeof appRouter

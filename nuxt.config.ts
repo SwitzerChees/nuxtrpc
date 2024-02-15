@@ -2,6 +2,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   build: {
-    transpile: ["trpc-nuxt"],
+    transpile: ['trpc-nuxt'],
   },
-});
+})

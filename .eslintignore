@@ -1,0 +1,17 @@
+node_modules
+.cache
+Dockerfile
+.azure
+.dockerignore
+.git
+.editorconfig
+.strapi-updater.json
+.env
+.nuxt
+.output
+build
+data
+docker-compose.yml
+test
+dist
+.eslintrc.cjs

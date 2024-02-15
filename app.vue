@@ -1,14 +1,16 @@
-<script setup lang="ts">
-const { $client } = useNuxtApp();
-
-const { data: hello } = await $client.hello.useQuery({ text: "Patrick" });
-const { data: date } = await $client.thedate.useLazyQuery();
-</script>
-
 <template>
   <div>
-    <p>{{ hello?.greeting }}</p>
-    <p>{{ date?.now?.getDate() }}</p>
+    <p>{{ greeting?.greeting }}</p>
+    <p>{{ date?.now?.getDate() ?? error ?? pending }}</p>
     <h1>Test</h1>
   </div>
 </template>
+
+<script setup lang="ts">
+  const { $client } = useNuxtApp()
+
+  const { data: greeting } = await $client.hello.hello.useQuery({
+    text: 'Patrick',
+  })
+  const { data: date, pending, error } = await $client.hello.thedate.useLazyQuery()
+</script>
