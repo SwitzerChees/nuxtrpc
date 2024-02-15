@@ -5,5 +5,11 @@ export default defineNuxtConfig({
     transpile: ['trpc-nuxt'],
   },
   modules: ['nuxt-primevue'],
-  css: ['primevue/resources/themes/aura-dark-green/theme.css'],
+  css: ['~/assets/css/main.css', 'primevue/resources/themes/aura-dark-green/theme.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })
