@@ -14,4 +14,3 @@ data
 docker-compose.yml
 test
 dist
-.eslintrc.cjs
