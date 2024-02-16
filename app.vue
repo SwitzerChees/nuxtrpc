@@ -1,8 +1,7 @@
 <template>
-  <div class="w-screen h-screen flex justify-center items-center">
+  <div class="flex items-center justify-center w-screen h-screen">
     <p>{{ greeting?.greeting }}</p>
-    <p>{{ date?.now?.getDate() ?? error ?? pending }}</p>
-    <h1>Test</h1>
+    <p>{{ hello?.hello }}</p>
     <Button>Refetch</Button>
   </div>
 </template>
@@ -10,8 +9,11 @@
 <script setup lang="ts">
   const { $client } = useNuxtApp()
 
-  const { data: greeting } = await $client.hello.hello.useQuery({
+  const { data: greeting } = await $client.hello.greeting.useQuery({
     text: 'Patrick',
   })
-  const { data: date, pending, error } = await $client.hello.thedate.useLazyQuery()
+
+  const { data: hello } = await $client.hello.hello.useQuery({
+    text: 'Kurt',
+  })
 </script>
