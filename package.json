@@ -9,12 +9,18 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "prepare": "husky",
-    "lint": "eslint . --ext .ts,.vue --max-warnings=0"
+    "lint": "eslint . --ext .ts,.vue --max-warnings=0",
+    "drizzle:push": "drizzle-kit push:pg",
+    "drizzle:migration": "drizzle-kit generate:pg"
   },
   "dependencies": {
     "@trpc/client": "^10.45.1",
     "@trpc/server": "^10.45.1",
+    "drizzle-orm": "^0.29.3",
+    "lucia": "^3.0.1",
     "nuxt": "^3.10.2",
+    "oslo": "^1.1.1",
+    "pg": "^8.11.3",
     "primevue": "^3.48.1",
     "superjson": "^2.2.1",
     "trpc-nuxt": "^0.10.19",
@@ -24,7 +30,9 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@types/pg": "^8.11.0",
     "autoprefixer": "^10.4.17",
+    "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

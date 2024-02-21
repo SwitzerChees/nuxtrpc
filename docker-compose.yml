@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  postgresql:
+    image: bitnami/postgresql:16.2.0
+    restart: unless-stopped
+    volumes:
+      - ./data/postgresql:/bitnami/postgresql
+    ports:
+      - 10432:5432
+    environment:
+      - POSTGRESQL_PASSWORD=test123
+      - POSTGRESQL_DATABASE=app
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/pgadmin/servers.json:/pgadmin4/servers.json
+    ports:
+      - 10050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hello@digital4you.ch
+      - PGADMIN_DEFAULT_PASSWORD=d4y
+
+  redis:
+    image: redis/redis-stack:latest
+    restart: unless-stopped
+    ports:
+      - 10379:6379
+      - 10001:8001
+
