@@ -1,8 +1,8 @@
 import { router } from '../trpc'
-import * as hello from '~/server/procedures/hello'
+import * as user from '~/server/procedures/user'
 
 export const appRouter = router({
-  hello: router(hello),
+  user: router(user),
 })
 
 // export type definition of API
