@@ -5,11 +5,14 @@ export default defineNuxtConfig({
     transpile: ['trpc-nuxt'],
   },
   modules: ['nuxt-primevue'],
-  css: ['~/assets/css/theme.css'],
+  css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  primevue: {
+    cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
   },
 })
