@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold">Users</h1>
       <ul>
         <li v-for="user in users" :key="user.id">
-          <h2>{{ user.name }}</h2>
+          <h2>{{ user.username }}</h2>
           <ul>
             <li v-for="post in user.posts" :key="post.id">
               <h3>{{ post.content }}</h3>
@@ -13,14 +13,24 @@
         </li>
       </ul>
     </div>
-    <Button>Refetch</Button>
+    <Button @click="register">Register</Button>
+    <span>{{ registerMutation?.error?.value }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
   const { $client } = useNuxtApp()
+  const registerMutation = $client.auth.registration.useMutation()
 
   const { data: users } = await $client.user.users.useQuery({
     withPosts: true,
   })
+
+  const register = async () => {
+    await registerMutation.mutate({
+      username: 'username5',
+      password: 'password',
+      passwordConfirmation: 'password',
+    })
+  }
 </script>

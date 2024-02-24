@@ -9,7 +9,7 @@ const inputFormat = z.object({
 type Input = z.infer<typeof inputFormat>
 
 async function handler({ ctx, input }: HandlerContext<Input>) {
-  return await ctx.db.query.users.findMany({
+  return await ctx.db.query.userTable.findMany({
     with: {
       posts: input.withPosts || undefined,
     },

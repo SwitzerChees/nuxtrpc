@@ -1,16 +1,19 @@
 import { H3Event } from 'h3'
 import { useDrizzle } from '../utils/drizzle'
+import { useLucia } from '../utils/lucia'
 /**
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export const createContext = (event: H3Event) => {
-  const session = getCookie(event, 'session')
-  const authorization = getRequestHeader(event, 'authorization')
+export const createContext = async (event: H3Event) => {
+  const { getUserSession } = useLucia()
+  const { user, session } = await getUserSession(event)
+
   const db = useDrizzle().db
   return {
-    user: authorization,
+    user,
     session,
     db,
+    event,
   }
 }

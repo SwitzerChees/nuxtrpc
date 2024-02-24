@@ -16,6 +16,7 @@
     "drizzle:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@lucia-auth/adapter-drizzle": "^1.0.2",
     "@trpc/client": "^10.45.1",
     "@trpc/server": "^10.45.1",
     "drizzle-orm": "^0.29.3",
