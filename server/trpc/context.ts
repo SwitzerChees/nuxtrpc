@@ -1,4 +1,3 @@
-import { inferAsyncReturnType } from '@trpc/server'
 import { H3Event } from 'h3'
 import { useDrizzle } from '../utils/drizzle'
 /**
@@ -15,5 +14,3 @@ export const createContext = (event: H3Event) => {
     db,
   }
 }
-
-export type Context = inferAsyncReturnType<typeof createContext>

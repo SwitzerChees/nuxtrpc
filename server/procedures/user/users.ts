@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { publicProcedure } from '~/server/trpc/trpc'
-import { Context } from '~/server/trpc/context'
+import { HandlerContext } from '~/types'
 
 const inputFormat = z.object({
   withPosts: z.boolean().optional(),
@@ -8,7 +8,7 @@ const inputFormat = z.object({
 
 type Input = z.infer<typeof inputFormat>
 
-async function handler({ ctx, input }: { input: Input; ctx: Context }) {
+async function handler({ ctx, input }: HandlerContext<Input>) {
   return await ctx.db.query.users.findMany({
     with: {
       posts: input.withPosts || undefined,
