@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['trpc-nuxt'],
   },
-  modules: ['nuxt-primevue'],
+  modules: ['nuxt-primevue', '@nuxtjs/device'],
   css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css'],
   postcss: {
     plugins: {

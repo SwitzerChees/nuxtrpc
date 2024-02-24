@@ -1,5 +1,6 @@
 <template>
   <NuxtLayout :name="layout">
+    <ErrorToasts />
     <NuxtPage />
   </NuxtLayout>
 </template>
