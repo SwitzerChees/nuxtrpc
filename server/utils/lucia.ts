@@ -23,10 +23,9 @@ export const useLucia = () => {
     if (_lucia) return
     const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable)
     _lucia = new Lucia(adapter, {
-      sessionExpiresIn: new TimeSpan(2, 'w'), // 2 weeks
+      sessionExpiresIn: new TimeSpan(4, 'w'), // 4 weeks
       sessionCookie: {
         attributes: {
-          // set to `true` when using HTTPS
           secure: process.env.NODE_ENV === 'production',
         },
       },

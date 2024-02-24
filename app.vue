@@ -14,7 +14,7 @@
       </ul>
     </div>
     <Button @click="register">Register</Button>
-    <span>{{ registerMutation?.error?.value }}</span>
+    <span>{{ registerMutation?.error.value?.message }}</span>
   </div>
 </template>
 
@@ -28,7 +28,7 @@
 
   const register = async () => {
     await registerMutation.mutate({
-      username: 'username5',
+      username: 'username6',
       password: 'password',
       passwordConfirmation: 'password',
     })
