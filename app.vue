@@ -13,18 +13,23 @@
         </li>
       </ul>
     </div>
-    <Button @click="register">Register</Button>
-    <span>{{ registerMutation?.error.value?.message }}</span>
+    <Button :disabled="registerPending" @click="register">Register</Button>
+    <InputSwitch v-model="userQueryParams.withPosts" />
+    <!-- <span>{{ registerMutation?.error.value?.message }}</span> -->
+    <span>{{ error?.message }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
   const { $client } = useNuxtApp()
   const registerMutation = $client.auth.registration.useMutation()
-
-  const { data: users } = await $client.user.users.useQuery({
-    withPosts: true,
+  const registerPending = computed(() => registerMutation.status.value === 'pending')
+  const userQueryParams = reactive({ withPosts: false })
+  const usersQuery = $client.user.users.useQuery(userQueryParams, {
+    watch: [userQueryParams],
   })
+  const users = usersQuery.data
+  const error = useError()
 
   const register = async () => {
     await registerMutation.mutate({
