@@ -24,6 +24,8 @@
         ><span class="w-full text-center">Create Account</span></Button
       >
       <small class="text-red-400">{{ registrationErrors }}</small>
+      <small class="font-bold text-center">or</small>
+      <NuxtLink to="/login" class="text-sm font-bold text-center text-blue-400">To Login</NuxtLink>
     </div>
   </div>
 </template>

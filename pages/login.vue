@@ -12,7 +12,7 @@
         <InputText id="password" v-model="user.password" type="password" aria-describedby="password-help" @keydown.enter="login" />
       </div>
       <Button class="mt-2" :disabled="loginLoading" @click="login"><span class="w-full text-center">Login</span></Button>
-      <small class="text-center text-red-500">{{ loginErrors }}</small>
+      <small class="text-center text-red-400">{{ loginErrors }}</small>
       <small class="font-bold text-center">or</small>
       <NuxtLink to="/registration" class="text-sm font-bold text-center text-blue-400">Create New Account</NuxtLink>
     </div>
