@@ -18,13 +18,13 @@
       <Button class="mt-2" :disabled="registrationLoading" @click="createAccount"
         ><span class="w-full text-center">Create Account</span></Button
       >
-      <small class="text-red-400">{{ registrationMutation.error }}</small>
+      <small class="text-red-400">{{ registrationErrors }}</small>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  const { trpc, isLoading, onSuccess } = useTRPC()
+  const { trpc, isLoading, onSuccess, formatedErrors } = useTRPC()
   const router = useRouter()
 
   const account = reactive({
@@ -35,6 +35,7 @@
 
   const registrationMutation = trpc.auth.registration.useMutation()
   const registrationLoading = isLoading(registrationMutation)
+  const registrationErrors = formatedErrors(registrationMutation)
   onSuccess(registrationMutation, () => {
     router.replace('/')
   })

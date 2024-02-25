@@ -1,3 +1,6 @@
+import type { ZodError } from 'zod'
+import type { FormatedErrorType } from '~/types'
+
 export const useTRPC = () => {
   const { $client } = useNuxtApp()
 
@@ -23,5 +26,16 @@ export const useTRPC = () => {
     })
   }
 
-  return { trpc: $client, isLoading, onSuccess, onError }
+  const formatedErrors = ({ error }: { error?: Ref<{ message: string } | null> }) => {
+    return computed(() => {
+      const err = error?.value as unknown as { message: string; data?: { httpStatus: number; issues: ZodError['issues'] } }
+      if (!err) return null
+      const formatedError: FormatedErrorType = { httpStatus: err.data?.httpStatus, message: err.message }
+      if (err.message !== 'error.zod') return formatedError
+      formatedError.issues = err.data?.issues
+      return formatedError
+    })
+  }
+
+  return { trpc: $client, isLoading, onSuccess, onError, formatedErrors }
 }
