@@ -7,13 +7,13 @@ import { publicProcedure } from '~/server/trpc/trpc'
 import { HandlerContext } from '~/types'
 import { UserSelect, userTable } from '~/server/database/schema'
 
-const inputFormat = z.object({
-  username: z.string(),
-  password: z.string(),
+const registrationInputFormat = z.object({
+  username: z.string().min(3).max(32),
+  password: z.string().min(8).max(64),
   passwordConfirmation: z.string(),
 })
 
-type Input = z.infer<typeof inputFormat>
+type Input = z.infer<typeof registrationInputFormat>
 
 async function handler({ ctx, input }: HandlerContext<Input>) {
   const { db, event } = ctx
@@ -61,4 +61,4 @@ async function handler({ ctx, input }: HandlerContext<Input>) {
   return true
 }
 
-export const registration = publicProcedure.input(inputFormat).mutation(handler)
+export const registration = publicProcedure.input(registrationInputFormat).mutation(handler)

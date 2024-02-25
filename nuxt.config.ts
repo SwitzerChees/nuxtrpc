@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['trpc-nuxt'],
   },
-  modules: ['nuxt-primevue', '@nuxtjs/device'],
+  modules: ['@nuxtjs/i18n', 'nuxt-primevue', '@nuxtjs/device'],
   css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css'],
   postcss: {
     plugins: {
@@ -14,5 +14,9 @@ export default defineNuxtConfig({
   },
   primevue: {
     cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
+  },
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
   },
 })
