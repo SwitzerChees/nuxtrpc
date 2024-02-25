@@ -3,6 +3,10 @@ import { publicProcedure } from '~/server/trpc/trpc'
 import { HandlerContext } from '~/types'
 
 const inputFormat = z.object({})
+const outputFormat = z.object({
+  id: z.string(),
+  username: z.string(),
+})
 
 type Input = z.infer<typeof inputFormat>
 
@@ -13,7 +17,8 @@ async function handler({ ctx }: HandlerContext<Input>) {
     where: (users, { eq }) => eq(users.id, user?.id),
   })
   if (!myUser) return null
-  return myUser
+
+  return outputFormat.parse(myUser)
 }
 
 export const myUser = publicProcedure.input(inputFormat).query(handler)

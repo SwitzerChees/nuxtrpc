@@ -1,17 +1,17 @@
-import type { UserSelect } from '~/server/database/schema'
+import type { User } from '~/types'
+
+const _user = ref<User | null>(null)
 
 export const useUser = () => {
   const { $client } = useNuxtApp()
 
   const myUserQuery = $client.user.myUser.useQuery({})
 
-  const user = ref<UserSelect | null>(null)
-
   const fetchUser = async () => {
     await myUserQuery.execute()
     if (!myUserQuery.data.value) return
-    user.value = myUserQuery.data.value
+    _user.value = myUserQuery.data.value
   }
 
-  return { user, fetchUser }
+  return { user: _user, fetchUser }
 }

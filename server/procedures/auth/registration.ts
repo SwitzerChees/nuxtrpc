@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { setCookie } from 'h3'
 import { Argon2id } from 'oslo/password'
 import { TRPCError } from '@trpc/server'
 import { useUUID } from '../../utils/uuid'
@@ -16,9 +15,8 @@ const inputFormat = z.object({
 type Input = z.infer<typeof inputFormat>
 
 async function handler({ ctx, input }: HandlerContext<Input>) {
-  const { db, event } = ctx
+  const { db } = ctx
   const { generate } = useUUID()
-  const { lucia } = useLucia()
   const { username, password, passwordConfirmation } = input
   if (password !== passwordConfirmation) {
     throw new TRPCError({
@@ -49,15 +47,6 @@ async function handler({ ctx, input }: HandlerContext<Input>) {
   if (!user) {
     throw new Error('error.registration.user.failed')
   }
-  const session = await lucia.createSession(user.id, {})
-  if (!session) {
-    throw new Error('error.session.failed')
-  }
-  const sessionCookie = await lucia.createSessionCookie(session.id)
-  if (!sessionCookie) {
-    throw new Error('error.session.cookie.failed')
-  }
-  setCookie(event, sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
   return true
 }
 

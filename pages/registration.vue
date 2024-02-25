@@ -5,17 +5,22 @@
       <img src="~/assets/images/logo.png" alt="Logo" class="w-24 h-24 mx-auto my-2" />
       <div class="flex flex-col gap-2">
         <label for="username" class="font-bold">Username</label>
-        <InputText id="username" v-model="user.username" aria-describedby="username-help" />
+        <InputText id="username" v-model="user.username" aria-describedby="username-help" @keydown.enter="registration" />
       </div>
       <div class="flex flex-col gap-2">
         <label for="password" class="font-bold">Password</label>
-        <InputText id="password" v-model="user.password" type="password" aria-describedby="username-help" />
+        <InputText id="password" v-model="user.password" type="password" aria-describedby="password-help" @keydown.enter="registration" />
       </div>
       <div class="flex flex-col gap-2">
         <label for="passwordConfirmation" class="font-bold">Password Confirmation</label>
-        <InputText id="passwordConfirmation" v-model="user.passwordConfirmation" type="password" aria-describedby="username-help" />
+        <InputText
+          id="passwordConfirmation"
+          v-model="user.passwordConfirmation"
+          type="password"
+          aria-describedby="passwordconfirm-help"
+          @keydown.enter="registration" />
       </div>
-      <Button class="mt-2" :disabled="registrationLoading" @click="createUser"
+      <Button class="mt-2" :disabled="registrationLoading" @click="registration"
         ><span class="w-full text-center">Create Account</span></Button
       >
       <small class="text-red-400">{{ registrationErrors }}</small>
@@ -40,7 +45,7 @@
     router.replace(`/login?username=${user.username}`)
   })
 
-  const createUser = async () => {
+  const registration = async () => {
     await registrationMutation.mutate(user)
   }
 </script>
