@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { Argon2id } from 'oslo/password'
 import { TRPCError } from '@trpc/server'
-import { generateUUID } from '../../utils/uuid'
 import { publicProcedure } from '~/server/trpc/trpc'
 import { HandlerContext } from '~/types'
 import { userTable } from '~/server/database/schema'
@@ -36,7 +35,6 @@ async function handler({ ctx, input }: HandlerContext<Input>) {
   const users = await db
     .insert(userTable)
     .values({
-      id: generateUUID(),
       username,
       password: hashedPassword,
     })
