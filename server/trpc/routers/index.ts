@@ -1,4 +1,4 @@
-import { router } from '../trpc'
+import { router } from '~/server/trpc/trpc'
 import * as user from '~/server/procedures/user'
 import * as auth from '~/server/procedures/auth'
 

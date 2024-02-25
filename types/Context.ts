@@ -1,5 +1,5 @@
 import type { inferAsyncReturnType } from '@trpc/server'
-import type { createContext } from '../server/trpc/context'
+import type { createContext } from '~/server/trpc/context'
 
 export type Context = inferAsyncReturnType<typeof createContext>
 
