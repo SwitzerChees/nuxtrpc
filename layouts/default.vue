@@ -13,7 +13,7 @@
       </ul>
       <div class="flex items-center gap-2 p-2">
         <Button rounded outlined severity="warning" class="flex-shrink-0" :disabled="logoutLoading" @click="logout">Logout</Button>
-        <small class="font-bold text-center text-green-500 truncate grow">{{ user?.password }}</small>
+        <small class="font-bold text-center text-green-500 truncate grow">{{ user?.username }}</small>
       </div>
     </aside>
     <main class="flex grow">

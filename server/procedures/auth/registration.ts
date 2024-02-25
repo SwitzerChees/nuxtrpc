@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { Argon2id } from 'oslo/password'
 import { TRPCError } from '@trpc/server'
-import { useUUID } from '../../utils/uuid'
+import { generateUUID } from '../../utils/uuid'
 import { publicProcedure } from '~/server/trpc/trpc'
 import { HandlerContext } from '~/types'
-import { UserSelect, userTable } from '~/server/database/schema'
+import { userTable } from '~/server/database/schema'
 
 const inputFormat = z.object({
   username: z.string().min(3).max(32),
@@ -16,7 +16,6 @@ type Input = z.infer<typeof inputFormat>
 
 async function handler({ ctx, input }: HandlerContext<Input>) {
   const { db } = ctx
-  const { generate } = useUUID()
   const { username, password, passwordConfirmation } = input
   if (password !== passwordConfirmation) {
     throw new TRPCError({
@@ -24,26 +23,25 @@ async function handler({ ctx, input }: HandlerContext<Input>) {
       message: 'error.registration.password.mismatch',
     })
   }
-  const hashedPassword = await new Argon2id().hash(password)
-  let user: UserSelect | undefined
-  try {
-    const users = await db
-      .insert(userTable)
-      .values({
-        id: generate(),
-        username,
-        password: hashedPassword,
-      })
-      .returning()
-    user = users[0]
-  } catch (error: any) {
-    if (error.code === '23505') {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'error.registration.username.exists',
-      })
-    }
+  let user = await db.query.userTable.findFirst({
+    where: (users, { eq }) => eq(users.username, username),
+  })
+  if (user) {
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'error.registration.user.exists',
+    })
   }
+  const hashedPassword = await new Argon2id().hash(password)
+  const users = await db
+    .insert(userTable)
+    .values({
+      id: generateUUID(),
+      username,
+      password: hashedPassword,
+    })
+    .returning()
+  user = users[0]
   if (!user) {
     throw new Error('error.registration.user.failed')
   }
