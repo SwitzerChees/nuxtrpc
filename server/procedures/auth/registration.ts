@@ -7,13 +7,13 @@ import { publicProcedure } from '~/server/trpc/trpc'
 import { HandlerContext } from '~/types'
 import { UserSelect, userTable } from '~/server/database/schema'
 
-const registrationInputFormat = z.object({
+const inputFormat = z.object({
   username: z.string().min(3).max(32),
   password: z.string().min(8).max(64),
   passwordConfirmation: z.string(),
 })
 
-type Input = z.infer<typeof registrationInputFormat>
+type Input = z.infer<typeof inputFormat>
 
 async function handler({ ctx, input }: HandlerContext<Input>) {
   const { db, event } = ctx
@@ -51,14 +51,14 @@ async function handler({ ctx, input }: HandlerContext<Input>) {
   }
   const session = await lucia.createSession(user.id, {})
   if (!session) {
-    throw new Error('error.registration.session.failed')
+    throw new Error('error.session.failed')
   }
   const sessionCookie = await lucia.createSessionCookie(session.id)
   if (!sessionCookie) {
-    throw new Error('error.registration.session.cookie.failed')
+    throw new Error('error.session.cookie.failed')
   }
   setCookie(event, sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
   return true
 }
 
-export const registration = publicProcedure.input(registrationInputFormat).mutation(handler)
+export const registration = publicProcedure.input(inputFormat).mutation(handler)
