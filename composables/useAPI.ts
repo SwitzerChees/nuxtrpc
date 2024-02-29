@@ -1,5 +1,6 @@
 import type { ToastMessageOptions } from 'primevue/toast'
 import type { FetchError } from 'ofetch'
+import { parse, serialize } from 'superjson'
 import type { APIRoute } from '~/types'
 
 type APIOpts = {
@@ -30,6 +31,7 @@ export const useAPI = <TRoute extends APIRoute>(
           if (!(options.headers instanceof Headers)) {
             options.headers = new Headers(options.headers ?? {})
           }
+          options.body = serialize(body)
           // options.headers.set('Content-Type', 'application/json')
         },
         onRequestError: ({ error }) => {
@@ -44,6 +46,7 @@ export const useAPI = <TRoute extends APIRoute>(
         },
         onResponse: ({ response }) => {
           if (response.status < 200 || response.status > 299) return
+          response._data = parse(JSON.stringify(response._data))
           if (opts.successToast) nuxtApp.hooks.callHook('api:success' as any, opts.successToast)
           if (opts.onSuccess) opts.onSuccess(response._data)
         },
