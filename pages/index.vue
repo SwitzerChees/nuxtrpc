@@ -28,9 +28,10 @@
   })
   const users = usersQuery.data
 
-  const reactiveInput = reactive({ name: 'World' })
+  const reactiveInput = reactive({ name: 'World', timestamp: new Date() })
 
-  const fetchPost = useAPI(APIRoutes.HelloGet, {
+  const fetchPost = useAPI(APIRoutes.HelloPost, {
+    input: reactiveInput,
     errorToast: true,
     onSuccess: (data) => {
       // eslint-disable-next-line no-console

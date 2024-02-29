@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
   const { trpc, isLoading, onSuccess, formatedErrors } = useTRPC()
-  const router = useRouter()
 
   const user = reactive({
     username: '',
@@ -44,7 +43,7 @@
   const registrationLoading = isLoading(registrationMutation)
   const registrationErrors = formatedErrors(registrationMutation)
   onSuccess(registrationMutation, () => {
-    router.replace(`/login?username=${user.username}`)
+    navigateTo(`/login?username=${user.username}`, { replace: true })
   })
 
   const registration = async () => {
