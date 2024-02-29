@@ -14,7 +14,7 @@
       </ul>
     </div>
     <InputSwitch v-model="userQueryParams.withPosts" />
-    <Button @click="refresh({})">Refresh</Button>
+    <Button :disabled="pending" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
   </div>
 </template>
 
@@ -28,12 +28,22 @@
   })
   const users = usersQuery.data
 
+  const reactiveInput = reactive({ name: 'World' })
+
   const {
     data: helloData,
     pending,
-    refresh,
     error,
+    onSuccess,
+    onError,
   } = await useAPI(APIRoutes.HelloPost, {
-    input: { name: 'World' },
+    input: reactiveInput,
+    watchInput: {
+      debounce: 1000,
+    },
   })
+  // eslint-disable-next-line no-console
+  onSuccess(() => console.log('HelloPost onSuccess'))
+  // eslint-disable-next-line no-console
+  onError((error) => console.error(error?.name))
 </script>
