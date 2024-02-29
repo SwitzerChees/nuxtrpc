@@ -1,5 +1,5 @@
-import type { APIGetHelloOutput, APIGetHelloInput } from '~/server/api/hello/.get'
-import type { APIPostHelloInput, APIPostHelloOutput } from '~/server/api/hello/.post'
+import type { APIGetHelloOutput, APIGetHelloInput } from '~/server/api/hello.get'
+import type { APIPostHelloInput, APIPostHelloOutput } from '~/server/api/hello.post'
 import type { APIParamHelloOutput } from '~/server/api/hello/[name]'
 
 type APIRouteBase<TInput = undefined, TOutput = any> = {
