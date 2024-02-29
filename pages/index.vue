@@ -30,15 +30,20 @@
 
   const reactiveInput = reactive({ name: 'World' })
 
-  const fetchHello = await useAPI(APIRoutes.HelloPost, {
+  const fetchPost = useAPI(APIRoutes.HelloPost, {
     input: reactiveInput,
+    errorToast: true,
+    onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('HelloPost onSuccess', data)
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.error('HelloPost onError', error)
+    },
     watchInput: {
-      debounce: 1000,
+      debounce: 500,
     },
   })
-  const { data: helloData, pending, error, onSuccess, onError } = fetchHello
-  // eslint-disable-next-line no-console
-  onSuccess(() => console.log('HelloPost onSuccess'))
-  // eslint-disable-next-line no-console
-  onError((error) => console.error(error?.name))
+  const { pending, error, data: helloData } = fetchPost
 </script>

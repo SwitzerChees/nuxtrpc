@@ -9,11 +9,18 @@ type APIOpts = {
   immediate?: boolean
 }
 
-export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: { input?: TRoute['Input'] } & APIOpts = {}) => {
+export const useAPI = <TRoute extends APIRoute>(
+  apiRoute: APIRoute,
+  opts: {
+    input?: TRoute['Input']
+    onSuccess?: (data?: TRoute['Output'] | null) => void
+    onError?: (error?: FetchError) => void
+  } & APIOpts = {},
+) => {
   const nuxtApp = useNuxtApp()
-  const asyncData = await useAsyncData<typeof apiRoute.Output>(
-    async () => {
-      return await $fetch<typeof apiRoute.Output>(apiRoute.Path, {
+  const asyncData = useAsyncData<typeof apiRoute.Output>(
+    () => {
+      return $fetch<typeof apiRoute.Output>(apiRoute.Path, {
         method: apiRoute.Method,
         body: opts.input,
         onRequest: ({ options }) => {
@@ -22,10 +29,20 @@ export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: 
           }
           // options.headers.set('Content-Type', 'application/json')
         },
-        onRequestError: (error) => {
-          if (opts.errorToast) {
-            nuxtApp.hooks.callHook('api:error' as any, error)
-          }
+        onRequestError: ({ error }) => {
+          if (opts.errorToast) nuxtApp.hooks.callHook('api:error' as any, error)
+          if (opts.onError) opts.onError(error)
+        },
+        onResponseError: ({ error, response }) => {
+          const responseError = error || response._data
+          if (!responseError) return
+          if (opts.errorToast) nuxtApp.hooks.callHook('api:error' as any, responseError)
+          if (opts.onError) opts.onError(responseError)
+        },
+        onResponse: ({ response }) => {
+          if (response.status < 200 || response.status > 299) return
+          if (opts.successToast) nuxtApp.hooks.callHook('api:success' as any, opts.successToast)
+          if (opts.onSuccess) opts.onSuccess(response._data)
         },
       })
     },
@@ -34,27 +51,9 @@ export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: 
     },
   )
 
-  const onSuccess = (successFunction: (data?: typeof apiRoute.Output | null) => void) => {
-    if (!successFunction) return
-    watch(asyncData.status, (newStatus) => {
-      if (newStatus === 'success') {
-        successFunction(asyncData.data.value)
-      }
-    })
-  }
-
-  const onError = (errorFunction: (error?: FetchError) => void) => {
-    if (!errorFunction) return
-    watch(asyncData.status, (newStatus) => {
-      if (newStatus === 'error' && asyncData.error.value) {
-        errorFunction(asyncData.error.value)
-      }
-    })
-  }
-
-  const debounceTime = typeof opts.watchInput === 'object' ? opts.watchInput.debounce : 0
-  const debouncedExecute = useDebounce(asyncData.execute, debounceTime ?? 0)
   if (opts.watchInput) {
+    const debounceTime = typeof opts.watchInput === 'object' ? opts.watchInput.debounce : 0
+    const debouncedExecute = useDebounce(asyncData.execute, debounceTime ?? 0)
     watch(opts.input as any, debouncedExecute)
   }
 
@@ -63,7 +62,5 @@ export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: 
     pending: asyncData.pending,
     error: asyncData.error,
     execute: asyncData.execute,
-    onSuccess,
-    onError,
   }
 }
