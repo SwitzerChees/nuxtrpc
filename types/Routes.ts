@@ -1,4 +1,4 @@
-import type { APIHelloOutput, APIHelloInput } from '~/server/api/hello'
+import type { APIHelloOutput, APIHelloInput } from '~/server/api/hello/.get'
 
 type APIRouteBase<TInput = undefined, TOutput = any> = {
   Path: string
@@ -16,6 +16,12 @@ export const APIRoutes = {
   },
   HelloGet: {
     Path: '/api/hello',
+    Method: 'GET',
+    Input: {} as APIHelloInput,
+    Output: {} as APIHelloOutput,
+  },
+  HelloParam: {
+    Path: '/api/hello/[name]',
     Method: 'GET',
     Output: {} as APIHelloOutput,
   },

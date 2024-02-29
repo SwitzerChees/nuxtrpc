@@ -30,8 +30,7 @@
 
   const reactiveInput = reactive({ name: 'World' })
 
-  const fetchPost = useAPI(APIRoutes.HelloPost, {
-    input: reactiveInput,
+  const fetchPost = useAPI(APIRoutes.HelloGet, {
     errorToast: true,
     onSuccess: (data) => {
       // eslint-disable-next-line no-console
@@ -42,7 +41,7 @@
       console.error('HelloPost onError', error)
     },
     watchInput: {
-      debounce: 500,
+      debounce: 200,
     },
   })
   const { pending, error, data: helloData } = fetchPost

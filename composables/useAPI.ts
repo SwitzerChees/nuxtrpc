@@ -20,9 +20,12 @@ export const useAPI = <TRoute extends APIRoute>(
   const nuxtApp = useNuxtApp()
   const asyncData = useAsyncData<typeof apiRoute.Output>(
     () => {
+      const body = apiRoute.Method === 'GET' || apiRoute.Method === 'DELETE' ? undefined : opts.input
+      const params = apiRoute.Method === 'GET' ? opts.input : undefined
       return $fetch<typeof apiRoute.Output>(apiRoute.Path, {
         method: apiRoute.Method,
-        body: opts.input,
+        body,
+        params,
         onRequest: ({ options }) => {
           if (!(options.headers instanceof Headers)) {
             options.headers = new Headers(options.headers ?? {})
@@ -51,7 +54,7 @@ export const useAPI = <TRoute extends APIRoute>(
     },
   )
 
-  if (opts.watchInput) {
+  if (opts.watchInput && opts.input) {
     const debounceTime = typeof opts.watchInput === 'object' ? opts.watchInput.debounce : 0
     const debouncedExecute = useDebounce(asyncData.execute, debounceTime ?? 0)
     watch(opts.input as any, debouncedExecute)
