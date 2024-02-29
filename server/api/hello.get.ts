@@ -1,8 +1,14 @@
 import { H3Event } from 'h3'
-import { z, zh } from 'h3-zod'
+import { z } from 'h3-zod'
+import { serialize } from 'superjson'
 
 const inputFormat = z.object({
   name: z.string().min(3).max(32),
+  timestamp: z.date(),
+  person: z.object({
+    age: z.number().int().positive(),
+  }),
+  hobbies: z.set(z.string()),
 })
 
 const outputFormat = z.object({
@@ -13,8 +19,10 @@ export type APIGetHelloInput = z.infer<typeof inputFormat>
 export type APIGetHelloOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = await zh.useValidatedQuery(event, inputFormat)
-  return outputFormat.parse({
-    hello: `Hello, ${input.name}!`,
-  })
+  const input = await useValidatedQuery(event, inputFormat)
+  return serialize(
+    outputFormat.parse({
+      hello: `Hello, ${input.name}!`,
+    }),
+  )
 })

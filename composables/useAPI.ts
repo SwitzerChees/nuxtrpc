@@ -21,17 +21,20 @@ export const useAPI = <TRoute extends APIRoute>(
   const nuxtApp = useNuxtApp()
   const asyncData = useAsyncData<typeof apiRoute.Output>(
     () => {
-      const body = apiRoute.Method === 'GET' || apiRoute.Method === 'DELETE' ? undefined : opts.input
-      const params = apiRoute.Method === 'GET' ? opts.input : undefined
       return $fetch<typeof apiRoute.Output>(apiRoute.Path, {
         method: apiRoute.Method,
-        body,
-        params,
         onRequest: ({ options }) => {
           if (!(options.headers instanceof Headers)) {
             options.headers = new Headers(options.headers ?? {})
           }
-          options.body = serialize(body)
+          const body = apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT' ? opts.input : undefined
+          if (body) {
+            options.body = serialize(body)
+          }
+          const params = apiRoute.Method === 'GET' ? opts.input : undefined
+          if (params) {
+            options.params = serialize(params)
+          }
           // options.headers.set('Content-Type', 'application/json')
         },
         onRequestError: ({ error }) => {

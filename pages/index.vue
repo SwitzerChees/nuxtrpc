@@ -28,9 +28,9 @@
   })
   const users = usersQuery.data
 
-  const reactiveInput = reactive({ name: 'World', timestamp: new Date() })
+  const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
 
-  const fetchPost = useAPI(APIRoutes.HelloPost, {
+  const fetchPost = useAPI(APIRoutes.HelloGet, {
     input: reactiveInput,
     errorToast: true,
     onSuccess: (data) => {
