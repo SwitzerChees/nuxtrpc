@@ -19,7 +19,6 @@ export type APIPostHelloOutput = z.infer<typeof outputFormat>
 export default defineEventHandler(async (event: H3Event) => {
   // const input = await zh.useValidatedBody(event, inputFormat)
   const input = await useValidatedBody(event, inputFormat)
-  console.log(typeof input.timestamp)
   return serialize(
     outputFormat.parse({
       timestamp: input.timestamp,

@@ -7,7 +7,7 @@ import * as schema from '~/server/database/schema'
 let _pool: pg.Pool
 let _db: NodePgDatabase<typeof schema>
 
-export const useDrizzle = () => {
+const useDrizzle = () => {
   if (!_pool) {
     // eslint-disable-next-line import/no-named-as-default-member
     _pool = new pg.Pool({
@@ -36,3 +36,5 @@ export const useDrizzle = () => {
 
   return { connect, db: _db, migration }
 }
+
+export default useDrizzle

@@ -1,5 +1,4 @@
 import { H3Event } from 'h3'
-import { useDrizzle, useLucia } from '~/server/utils'
 /**
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context

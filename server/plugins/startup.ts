@@ -1,5 +1,3 @@
-import { useDrizzle } from '~/server/utils'
-
 export default defineNitroPlugin(async () => {
   const { connect } = useDrizzle()
   await connect()
