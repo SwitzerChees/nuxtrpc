@@ -7,7 +7,7 @@
   const nuxtApp = useNuxtApp()
   const { isMobile } = useDevice()
 
-  nuxtApp.hooks.hook('trpc:error' as any, (e: { message: string }) => {
+  nuxtApp.hooks.hook('api:error' as any, (e: Error) => {
     toast.add({
       severity: 'error',
       life: 5000,

@@ -30,18 +30,13 @@
 
   const reactiveInput = reactive({ name: 'World' })
 
-  const {
-    data: helloData,
-    pending,
-    error,
-    onSuccess,
-    onError,
-  } = await useAPI(APIRoutes.HelloPost, {
+  const fetchHello = await useAPI(APIRoutes.HelloPost, {
     input: reactiveInput,
     watchInput: {
       debounce: 1000,
     },
   })
+  const { data: helloData, pending, error, onSuccess, onError } = fetchHello
   // eslint-disable-next-line no-console
   onSuccess(() => console.log('HelloPost onSuccess'))
   // eslint-disable-next-line no-console

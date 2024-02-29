@@ -10,9 +10,10 @@ type APIOpts = {
 }
 
 export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: { input?: TRoute['Input'] } & APIOpts = {}) => {
+  const nuxtApp = useNuxtApp()
   const asyncData = await useAsyncData<typeof apiRoute.Output>(
-    () => {
-      return $fetch<typeof apiRoute.Output>(apiRoute.Path, {
+    async () => {
+      return await $fetch<typeof apiRoute.Output>(apiRoute.Path, {
         method: apiRoute.Method,
         body: opts.input,
         onRequest: ({ options }) => {
@@ -20,6 +21,11 @@ export const useAPI = async <TRoute extends APIRoute>(apiRoute: APIRoute, opts: 
             options.headers = new Headers(options.headers ?? {})
           }
           // options.headers.set('Content-Type', 'application/json')
+        },
+        onRequestError: (error) => {
+          if (opts.errorToast) {
+            nuxtApp.hooks.callHook('api:error' as any, error)
+          }
         },
       })
     },
