@@ -1,4 +1,5 @@
 import type { ToastMessageOptions } from 'primevue/toast'
+import type { WatchSource } from 'vue'
 import type { FetchError } from 'ofetch'
 import { parse, serialize } from 'superjson'
 import type { BaseAPIRoute } from '~/types'
@@ -6,7 +7,8 @@ import type { BaseAPIRoute } from '~/types'
 type APIOpts = {
   successToast?: ToastMessageOptions
   errorToast?: boolean
-  watchInput?: boolean | { debounce?: number }
+  watch?: (WatchSource<unknown> | object)[]
+  watchDebounce?: number
   immediate?: boolean
   headers?: Record<string, string>
 }
@@ -67,10 +69,10 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
     },
   )
 
-  if ('input' in opts && opts.watchInput && opts.input) {
-    const debounceTime = typeof opts.watchInput === 'object' ? opts.watchInput.debounce : 0
-    const debouncedExecute = useDebounce(asyncData.execute, debounceTime ?? 0)
-    watch(opts.input as any, debouncedExecute)
+  if (opts.watch) {
+    const debounceTime = opts.watchDebounce || 0
+    const debouncedRefresh = useDebounce(asyncData.refresh, debounceTime)
+    watch(opts.watch, debouncedRefresh)
   }
 
   return {

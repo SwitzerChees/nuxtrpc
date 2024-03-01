@@ -41,9 +41,8 @@
       // eslint-disable-next-line no-console
       console.error('onError', error)
     },
-    watchInput: {
-      debounce: 200,
-    },
+    watch: [reactiveInput],
+    watchDebounce: 300,
     headers: {
       'X-Custom-Header': 'hello',
     },
