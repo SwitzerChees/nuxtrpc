@@ -44,6 +44,9 @@
     watchInput: {
       debounce: 200,
     },
+    headers: {
+      'X-Custom-Header': 'hello',
+    },
   })
   const { pending, data: helloData } = fetchPost
 </script>

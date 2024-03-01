@@ -8,6 +8,7 @@ type APIOpts = {
   errorToast?: boolean
   watchInput?: boolean | { debounce?: number }
   immediate?: boolean
+  headers?: Record<string, string>
 }
 
 type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input'] ? {} : { input: TRoute['Input'] }
@@ -32,13 +33,9 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
       return $fetch<TRoute['Output']>(apiRoutePath, {
         method: apiRoute.Method,
         onRequest: ({ options }) => {
-          if (!(options.headers instanceof Headers)) {
-            options.headers = new Headers(options.headers ?? {})
-          }
-          const body =
-            (apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT') && 'input' in opts
-              ? opts.input
-              : undefined
+          options.headers = new Headers(opts.headers || options.headers || {})
+          const canHaveBody = apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT'
+          const body = canHaveBody && 'input' in opts ? opts.input : undefined
           if (body) {
             options.body = serialize(body)
           }
@@ -46,9 +43,6 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
           if (queryParams) {
             options.params = serialize(queryParams)
           }
-          // Replace placeholders in url like [name] with the actual value from input
-
-          // options.headers.set('Content-Type', 'application/json')
         },
         onRequestError: ({ error }) => {
           if (opts.errorToast) nuxtApp.hooks.callHook('api:error' as any, error)
