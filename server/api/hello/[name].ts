@@ -9,8 +9,8 @@ const outputFormat = z.object({
   hello: z.string().min(3).max(32),
 })
 
-export type APIParamHelloInput = z.infer<typeof inputFormat>
-export type APIParamHelloOutput = z.infer<typeof outputFormat>
+export type APIHelloByNameInput = z.infer<typeof inputFormat>
+export type APIHelloByNameOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await zh.useValidatedParams(event, inputFormat)

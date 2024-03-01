@@ -15,8 +15,8 @@ const outputFormat = z.object({
   hello: z.string().min(3).max(32),
 })
 
-export type APIGetHelloInput = z.infer<typeof inputFormat>
-export type APIGetHelloOutput = z.infer<typeof outputFormat>
+export type APIHelloGetInput = z.infer<typeof inputFormat>
+export type APIHelloGetOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedQuery(event, inputFormat)
