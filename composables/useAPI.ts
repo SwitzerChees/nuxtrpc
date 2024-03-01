@@ -24,6 +24,7 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
 ) => {
   const nuxtApp = useNuxtApp()
   const asyncData = useAsyncData<TRoute['Output']>(
+    apiRoute.Path,
     () => {
       let apiRoutePath = apiRoute.Path
       const params = ('input' in opts ? opts.input : undefined) as any

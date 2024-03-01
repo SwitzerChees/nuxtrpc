@@ -2,18 +2,7 @@
   <div class="flex flex-col items-center justify-center gap-2 grow">
     <div v-if="users" class="p-4 rounded bg-slate-700">
       <h1 class="text-2xl font-bold">Users {{ isLoading || helloData?.hello }}</h1>
-      <ul>
-        <li v-for="user in users" :key="user.id">
-          <h2>{{ user.username }}</h2>
-          <ul>
-            <!-- <li v-for="post in user.posts" :key="post.id">
-              <h3>{{ post.content }}</h3>
-            </li> -->
-          </ul>
-        </li>
-      </ul>
     </div>
-    <InputSwitch v-model="userQueryParams.withPosts" />
     <Button :disabled="isLoading" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
   </div>
 </template>
