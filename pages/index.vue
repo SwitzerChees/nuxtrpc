@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-2 grow">
     <div v-if="users" class="p-4 rounded bg-slate-700">
-      <h1 class="text-2xl font-bold">Users {{ pending || helloData?.hello || error }}</h1>
+      <h1 class="text-2xl font-bold">Users {{ pending || helloData?.hello }}</h1>
       <ul>
         <li v-for="user in users" :key="user.id">
           <h2>{{ user.username }}</h2>
@@ -30,20 +30,20 @@
 
   const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
 
-  const fetchPost = useAPI(APIRoutes.HelloGet, {
+  const fetchPost = useAPI(APIRoutes.Hello.Get, {
     input: reactiveInput,
     errorToast: true,
     onSuccess: (data) => {
       // eslint-disable-next-line no-console
-      console.log('HelloPost onSuccess', data)
+      console.log('onSuccess', data)
     },
     onError: (error) => {
       // eslint-disable-next-line no-console
-      console.error('HelloPost onError', error)
+      console.error('onError', error)
     },
     watchInput: {
       debounce: 200,
     },
   })
-  const { pending, error, data: helloData } = fetchPost
+  const { pending, data: helloData } = fetchPost
 </script>

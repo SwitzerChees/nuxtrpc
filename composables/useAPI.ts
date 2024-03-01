@@ -1,7 +1,7 @@
 import type { ToastMessageOptions } from 'primevue/toast'
 import type { FetchError } from 'ofetch'
 import { parse, serialize } from 'superjson'
-import type { APIRoute } from '~/types'
+import type { BaseAPIRoute } from '~/types'
 
 type APIOpts = {
   successToast?: ToastMessageOptions
@@ -10,18 +10,21 @@ type APIOpts = {
   immediate?: boolean
 }
 
-export const useAPI = <TRoute extends APIRoute>(
-  apiRoute: APIRoute,
-  opts: {
-    input?: TRoute['Input']
+type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input']
+  ? { input?: null }
+  : { input: TRoute['Input'] }
+
+export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
+  apiRoute: TRoute,
+  opts: WithConditionalInput<TRoute> & {
     onSuccess?: (data?: TRoute['Output'] | null) => void
     onError?: (error?: FetchError) => void
-  } & APIOpts = {},
+  } & APIOpts,
 ) => {
   const nuxtApp = useNuxtApp()
-  const asyncData = useAsyncData<typeof apiRoute.Output>(
+  const asyncData = useAsyncData<TRoute['Output']>(
     () => {
-      return $fetch<typeof apiRoute.Output>(apiRoute.Path, {
+      return $fetch<TRoute['Output']>(apiRoute.Path, {
         method: apiRoute.Method,
         onRequest: ({ options }) => {
           if (!(options.headers instanceof Headers)) {
