@@ -1,6 +1,5 @@
 import { H3Event } from 'h3'
 import { z } from 'h3-zod'
-import { serialize } from 'superjson'
 
 const inputFormat = z.object({
   name: z.string().min(3).max(32),
@@ -20,9 +19,7 @@ export type APIHelloGetOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedQuery(event, inputFormat)
-  return serialize(
-    outputFormat.parse({
-      hello: `Hello, ${input.name}!`,
-    }),
-  )
+  const myOutput = { hello: `Hello, ${input.name}!` }
+  const output = await useValidatedOutput(myOutput, outputFormat)
+  return output
 })

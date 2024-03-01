@@ -1,5 +1,4 @@
 import { H3Event } from 'h3'
-import { serialize } from 'superjson'
 import { z } from 'zod'
 
 const inputFormat = z.object({
@@ -17,10 +16,7 @@ export type APIHelloPostOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedBody(event, inputFormat)
-  return serialize(
-    outputFormat.parse({
-      timestamp: input.timestamp,
-      hello: `Hello, ${input.name}!`,
-    }),
-  )
+  const myOutput = { hello: `Hello, ${input.name}!`, timestamp: new Date() }
+  const output = await useValidatedOutput(myOutput, outputFormat)
+  return output
 })
