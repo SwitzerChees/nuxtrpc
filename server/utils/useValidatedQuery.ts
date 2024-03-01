@@ -13,7 +13,7 @@ export default function useValidatedQuery<T extends ValidationSchema | z.ZodRawS
     const rawQuery = getQuery(event) as any
     const cleanQuery = {
       json: JSON.parse(rawQuery.json),
-      meta: JSON.parse(rawQuery.meta),
+      meta: rawQuery.meta ? JSON.parse(rawQuery.meta) : undefined,
     }
     const query = superparse(JSON.stringify(cleanQuery))
     const finalSchema = schema instanceof z.ZodType ? schema : z.object(schema)

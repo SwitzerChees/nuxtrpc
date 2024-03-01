@@ -6,9 +6,9 @@
         <li v-for="user in users" :key="user.id">
           <h2>{{ user.username }}</h2>
           <ul>
-            <li v-for="post in user.posts" :key="post.id">
+            <!-- <li v-for="post in user.posts" :key="post.id">
               <h3>{{ post.content }}</h3>
-            </li>
+            </li> -->
           </ul>
         </li>
       </ul>
@@ -21,12 +21,13 @@
 <script setup lang="ts">
   import { APIRoutes } from '~/types'
 
-  const { $client } = useNuxtApp()
   const userQueryParams = reactive({ withPosts: false })
-  const usersQuery = $client.user.users.useQuery(userQueryParams, {
+  const fetchUsers = useAPI(APIRoutes.User.Get, {
+    errorToast: true,
+    input: userQueryParams,
     watch: [userQueryParams],
   })
-  const users = usersQuery.data
+  const { data: users } = fetchUsers
 
   const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
 
