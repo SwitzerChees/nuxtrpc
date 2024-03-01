@@ -5,14 +5,14 @@
       <img src="~/assets/images/logo.png" alt="Logo" class="w-24 h-24 mx-auto my-2" />
       <div class="flex flex-col gap-2">
         <label for="username" class="font-bold">Username</label>
-        <InputText id="username" v-model="user.username" aria-describedby="username-help" @keydown.enter="login" />
+        <InputText id="username" v-model="user.username" aria-describedby="username-help" @keydown.enter="login()" />
       </div>
       <div class="flex flex-col gap-2">
         <label for="password" class="font-bold">Password</label>
-        <InputText id="password" v-model="user.password" type="password" aria-describedby="password-help" @keydown.enter="login" />
+        <InputText id="password" v-model="user.password" type="password" aria-describedby="password-help" @keydown.enter="login()" />
       </div>
-      <Button class="mt-2" :disabled="loginLoading" @click="login"><span class="w-full text-center">Login</span></Button>
-      <small class="text-center text-red-400">{{ loginErrors }}</small>
+      <Button class="mt-2" :disabled="isLoading" @click="login()"><span class="w-full text-center">Login</span></Button>
+      <small class="text-center text-red-400">{{ error }}</small>
       <small class="font-bold text-center">or</small>
       <NuxtLink to="/registration" class="text-sm font-bold text-center text-blue-400">Create New Account</NuxtLink>
     </div>
@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-  const { trpc, isLoading, onSuccess, formatedErrors } = useTRPC()
+  import { APIRoutes } from '~/types'
+
   const route = useRoute()
 
   const user = reactive({
@@ -29,14 +30,13 @@
     passwordConfirmation: '',
   })
 
-  const loginMutation = trpc.auth.login.useMutation()
-  const loginLoading = isLoading(loginMutation)
-  const loginErrors = formatedErrors(loginMutation)
-  onSuccess(loginMutation, () => {
-    location.reload()
+  const apiLogin = useAPI(APIRoutes.Auth.Login, {
+    input: user,
+    errorToast: true,
+    onSuccess: () => {
+      location.reload()
+    },
+    immediate: false,
   })
-
-  const login = async () => {
-    await loginMutation.mutate(user)
-  }
+  const { isLoading, error, execute: login } = apiLogin
 </script>

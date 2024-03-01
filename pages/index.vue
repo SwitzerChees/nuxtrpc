@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-2 grow">
     <div v-if="users" class="p-4 rounded bg-slate-700">
-      <h1 class="text-2xl font-bold">Users {{ pending || helloData?.hello }}</h1>
+      <h1 class="text-2xl font-bold">Users {{ isLoading || helloData?.hello }}</h1>
       <ul>
         <li v-for="user in users" :key="user.id">
           <h2>{{ user.username }}</h2>
@@ -14,7 +14,7 @@
       </ul>
     </div>
     <InputSwitch v-model="userQueryParams.withPosts" />
-    <Button :disabled="pending" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
+    <Button :disabled="isLoading" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
   </div>
 </template>
 
@@ -47,5 +47,5 @@
       'X-Custom-Header': 'hello',
     },
   })
-  const { pending, data: helloData } = fetchPost
+  const { isLoading, data: helloData } = fetchPost
 </script>

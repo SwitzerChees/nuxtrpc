@@ -4,11 +4,11 @@ import * as zod from 'zod'
 import { z } from 'zod'
 import { ParseOptions, ParsedData, ValidationSchema, createBadRequest } from '~/types'
 
-export default async function useValidatedQuery<T extends ValidationSchema | z.ZodRawShape>(
+export default function useValidatedQuery<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
   schema: T,
   parseOptions?: ParseOptions,
-): Promise<ParsedData<T>> {
+): ParsedData<T> {
   try {
     const rawQuery = getQuery(event) as any
     const cleanQuery = {
@@ -17,7 +17,7 @@ export default async function useValidatedQuery<T extends ValidationSchema | z.Z
     }
     const query = superparse(JSON.stringify(cleanQuery))
     const finalSchema = schema instanceof z.ZodType ? schema : z.object(schema)
-    const parsed = await finalSchema.parseAsync(query, parseOptions)
+    const parsed = finalSchema.parse(query, parseOptions)
     return parsed
   } catch (error) {
     throw createBadRequest(error as zod.ZodError)

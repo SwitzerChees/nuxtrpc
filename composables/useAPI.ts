@@ -75,10 +75,12 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
     watch(opts.watch, debouncedRefresh)
   }
 
+  const isLoading = computed(() => asyncData.status.value === 'pending')
+
   return {
     data: asyncData.data,
-    pending: asyncData.pending,
     error: asyncData.error,
+    isLoading,
     execute: asyncData.execute,
   }
 }

@@ -17,6 +17,6 @@ export type APIHelloPostOutput = z.infer<typeof outputFormat>
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedBody(event, inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!`, timestamp: new Date() }
-  const output = await useValidatedOutput(myOutput, outputFormat)
+  const output = useValidatedOutput(myOutput, outputFormat)
   return output
 })

@@ -12,9 +12,9 @@ const outputFormat = z.object({
 export type APIHelloByNameInput = z.infer<typeof inputFormat>
 export type APIHelloByNameOutput = z.infer<typeof outputFormat>
 
-export default defineEventHandler(async (event: H3Event) => {
-  const input = await useValidatedParams(event, inputFormat)
+export default defineEventHandler((event: H3Event) => {
+  const input = useValidatedParams(event, inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
-  const output = await useValidatedOutput(myOutput, outputFormat)
+  const output = useValidatedOutput(myOutput, outputFormat)
   return output
 })
