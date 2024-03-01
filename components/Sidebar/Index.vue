@@ -11,23 +11,24 @@
       </div>
     </ul>
     <div class="flex items-center gap-2 p-2">
-      <Button rounded outlined severity="warning" class="flex-shrink-0" :disabled="logoutLoading" @click="logout">Logout</Button>
+      <Button rounded outlined severity="warning" class="flex-shrink-0" :disabled="isLoading" @click="logout()">Logout</Button>
       <small class="font-bold text-center text-green-500 truncate grow">{{ user?.username }}</small>
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
+  import { APIRoutes } from '~/types'
+
   const toggleSidebar = ref(true)
-  const { trpc, isLoading, onSuccess } = useTRPC()
   const { user } = useUser()
 
-  const logoutMutation = trpc.auth.logout.useMutation()
-  const logoutLoading = isLoading(logoutMutation)
-  onSuccess(logoutMutation, () => {
-    location.reload()
+  const apiLogout = useAPI(APIRoutes.Auth.Logout, {
+    errorToast: true,
+    onSuccess: () => {
+      location.reload()
+    },
+    immediate: false,
   })
-  const logout = async () => {
-    await logoutMutation.mutate({})
-  }
+  const { isLoading, execute: logout } = apiLogout
 </script>

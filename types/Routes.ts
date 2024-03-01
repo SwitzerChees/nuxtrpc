@@ -3,6 +3,7 @@ import type { APIHelloPostInput, APIHelloPostOutput } from '~/server/api/hello.p
 import type { APIHelloByNameInput, APIHelloByNameOutput } from '~/server/api/hello/[name]'
 import type { APIAuthLoginInput, APIAuthLoginOutput } from '~/server/api/auth/login'
 import type { APIAuthRegistrationInput, APIAuthRegistrationOutput } from '~/server/api/auth/registration'
+import type { APIAuthLogoutOutput } from '~/server/api/auth/logout'
 
 type APIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
@@ -46,6 +47,11 @@ export const APIRoutes = {
       Method: 'POST' as APIMethod,
       Input: {} as APIAuthRegistrationInput,
       Output: {} as APIAuthRegistrationOutput,
+    },
+    Logout: {
+      Path: '/api/auth/logout',
+      Method: 'POST' as APIMethod,
+      Output: {} as APIAuthLogoutOutput,
     },
   },
 }
