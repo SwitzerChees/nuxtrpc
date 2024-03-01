@@ -30,7 +30,7 @@
 
   const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
 
-  const fetchPost = useAPI(APIRoutes.Hello.ByName, {
+  const fetchPost = useAPI(APIRoutes.Hello.Post, {
     input: reactiveInput,
     errorToast: true,
     onSuccess: (data) => {
