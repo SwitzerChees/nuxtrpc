@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-2 grow">
     <div class="flex flex-col gap-2 p-8 rounded bg-stone-700 w-80">
-      <h1 class="text-lg font-bold text-center">Registration</h1>
+      <h1 class="text-lg font-bold text-center">Registrations</h1>
       <img src="~/assets/images/logo.png" alt="Logo" class="w-24 h-24 mx-auto my-2" />
       <div class="flex flex-col gap-2">
         <label for="username" class="font-bold">Username</label>
