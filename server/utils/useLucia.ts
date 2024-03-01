@@ -38,7 +38,9 @@ export const useLucia = () => {
   }
 
   const getUserSession = async (event: H3Event) => {
+    if (!_lucia) return { user: undefined, session: undefined }
     const cookieHeader = getRequestHeader(event, 'Cookie')
+    if (!cookieHeader) return { user: undefined, session: undefined }
     const sessionId = _lucia.readSessionCookie(cookieHeader ?? '')
     let session: Session | undefined
     let user: User | undefined

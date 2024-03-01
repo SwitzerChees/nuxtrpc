@@ -22,7 +22,14 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   const nuxtApp = useNuxtApp()
   const asyncData = useAsyncData<TRoute['Output']>(
     () => {
-      return $fetch<TRoute['Output']>(apiRoute.Path, {
+      let apiRoutePath = apiRoute.Path
+      const params = ('input' in opts ? opts.input : undefined) as any
+      if (params && apiRoutePath.includes('[') && apiRoutePath.includes(']')) {
+        Object.keys(params).forEach((key) => {
+          apiRoutePath = apiRoutePath.replace(`[${key}]`, params[key])
+        })
+      }
+      return $fetch<TRoute['Output']>(apiRoutePath, {
         method: apiRoute.Method,
         onRequest: ({ options }) => {
           if (!(options.headers instanceof Headers)) {
@@ -35,10 +42,12 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
           if (body) {
             options.body = serialize(body)
           }
-          const params = apiRoute.Method === 'GET' && 'input' in opts ? opts.input : undefined
-          if (params) {
-            options.params = serialize(params)
+          const queryParams = apiRoute.Method === 'GET' && 'input' in opts ? opts.input : undefined
+          if (queryParams) {
+            options.params = serialize(queryParams)
           }
+          // Replace placeholders in url like [name] with the actual value from input
+
           // options.headers.set('Content-Type', 'application/json')
         },
         onRequestError: ({ error }) => {
