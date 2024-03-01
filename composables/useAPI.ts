@@ -10,9 +10,7 @@ type APIOpts = {
   immediate?: boolean
 }
 
-type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input']
-  ? { input?: null }
-  : { input: TRoute['Input'] }
+type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input'] ? {} : { input: TRoute['Input'] }
 
 export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   apiRoute: TRoute,
@@ -30,11 +28,14 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
           if (!(options.headers instanceof Headers)) {
             options.headers = new Headers(options.headers ?? {})
           }
-          const body = apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT' ? opts.input : undefined
+          const body =
+            (apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT') && 'input' in opts
+              ? opts.input
+              : undefined
           if (body) {
             options.body = serialize(body)
           }
-          const params = apiRoute.Method === 'GET' ? opts.input : undefined
+          const params = apiRoute.Method === 'GET' && 'input' in opts ? opts.input : undefined
           if (params) {
             options.params = serialize(params)
           }
@@ -63,7 +64,7 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
     },
   )
 
-  if (opts.watchInput && opts.input) {
+  if ('input' in opts && opts.watchInput && opts.input) {
     const debounceTime = typeof opts.watchInput === 'object' ? opts.watchInput.debounce : 0
     const debouncedExecute = useDebounce(asyncData.execute, debounceTime ?? 0)
     watch(opts.input as any, debouncedExecute)
