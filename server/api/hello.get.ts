@@ -1,5 +1,5 @@
 import { H3Event } from 'h3'
-import { z } from 'h3-zod'
+import { z } from 'zod'
 
 const inputFormat = z.object({
   name: z.string().min(3).max(32),
