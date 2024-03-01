@@ -18,10 +18,12 @@ type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unkno
 
 export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   apiRoute: TRoute,
-  opts: WithConditionalInput<TRoute> & {
-    onSuccess?: (data?: TRoute['Output'] | null) => void
-    onError?: (error?: FetchError) => void
-  } & APIOpts,
+  opts:
+    | (WithConditionalInput<TRoute> & {
+        onSuccess?: (data?: TRoute['Output'] | null) => void
+        onError?: (error?: FetchError) => void
+      } & APIOpts)
+    | undefined = {} as any,
 ) => {
   const nuxtApp = useNuxtApp()
   const asyncData = useAsyncData<TRoute['Output']>(
