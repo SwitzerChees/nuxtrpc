@@ -11,6 +11,7 @@ type APIOpts = {
   watchDebounce?: number
   immediate?: boolean
   headers?: Record<string, string>
+  awaitable?: boolean
 }
 
 type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input'] ? {} : { input: TRoute['Input'] }

@@ -17,8 +17,6 @@
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
-    "@trpc/client": "^10.45.1",
-    "@trpc/server": "^10.45.1",
     "drizzle-orm": "^0.29.3",
     "lucia": "^3.0.1",
     "nuxt": "^3.10.2",
@@ -26,7 +24,6 @@
     "pg": "^8.11.3",
     "primevue": "^3.48.1",
     "superjson": "^2.2.1",
-    "trpc-nuxt": "^0.10.19",
     "vue": "^3.4.19",
     "vue-router": "^4.2.5",
     "zod": "^3.22.4"

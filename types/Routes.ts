@@ -5,6 +5,7 @@ import type { APIAuthLoginInput, APIAuthLoginOutput } from '~/server/api/auth/lo
 import type { APIAuthRegistrationInput, APIAuthRegistrationOutput } from '~/server/api/auth/registration'
 import type { APIAuthLogoutOutput } from '~/server/api/auth/logout'
 import type { APIUserGetInput, APIUserGetOutput } from '~/server/api/user.get'
+import type { APIUserMyOuserOutput } from '~/server/api/user/myuser.get'
 
 type APIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
@@ -61,6 +62,11 @@ export const APIRoutes = {
       Method: 'GET' as APIMethod,
       Input: {} as APIUserGetInput,
       Output: {} as APIUserGetOutput,
+    },
+    MyUser: {
+      Path: '/api/user/myuser',
+      Method: 'GET' as APIMethod,
+      Output: {} as APIUserMyOuserOutput,
     },
   },
 }

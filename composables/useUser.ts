@@ -1,16 +1,12 @@
-import type { User } from '~/types'
+import { APIRoutes, type User } from '~/types'
 
 const _user = ref<User | null>(null)
 
 export const useUser = () => {
-  const { $client } = useNuxtApp()
-
-  const myUserQuery = $client.user.myUser.useQuery({})
-
   const fetchUser = async () => {
-    await myUserQuery.execute()
-    if (!myUserQuery.data.value) return
-    _user.value = myUserQuery.data.value
+    const user = await useFetch<User>(APIRoutes.User.MyUser.Path)
+    if (!user.data.value) return
+    _user.value = user.data.value
   }
 
   return { user: _user, fetchUser }

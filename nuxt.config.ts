@@ -5,9 +5,6 @@ export default defineNuxtConfig({
     typedPages: true,
     asyncContext: true,
   },
-  build: {
-    transpile: ['trpc-nuxt'],
-  },
   // imports: {
   //   presets: [
   //     {
