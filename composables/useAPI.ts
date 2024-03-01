@@ -47,14 +47,14 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
           }
         },
         onRequestError: ({ error }) => {
+          if (!error) return
           if (opts.errorToast) nuxtApp.hooks.callHook('api:error' as any, error)
-          if (opts.onError) opts.onError(error)
         },
         onResponseError: ({ error, response }) => {
           const responseError = error || response._data
+          if (opts.onError) opts.onError(responseError)
           if (!responseError) return
           if (opts.errorToast) nuxtApp.hooks.callHook('api:error' as any, responseError)
-          if (opts.onError) opts.onError(responseError)
         },
         onResponse: ({ response }) => {
           if (response.status < 200 || response.status > 299) return
@@ -77,9 +77,15 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
 
   const isLoading = computed(() => asyncData.status.value === 'pending')
 
+  const formatedError = computed(() => {
+    if (!asyncData.error.value?.data) return
+    return asyncData.error.value?.data ? useFormatedError(asyncData.error.value.data as Error) : undefined
+  })
+
   return {
     data: asyncData.data,
     error: asyncData.error,
+    formatedError,
     isLoading,
     execute: asyncData.execute,
   }

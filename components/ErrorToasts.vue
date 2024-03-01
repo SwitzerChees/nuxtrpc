@@ -10,10 +10,12 @@
   const { isMobile } = useDevice()
 
   nuxtApp.hooks.hook('api:error' as any, (e: Error) => {
+    const { message, detail } = useFormatedError(e)
     toast.add({
       severity: 'error',
       life: 5000,
-      summary: e.message,
+      summary: message,
+      detail,
       group: 'notification',
     })
   })

@@ -1,7 +1,7 @@
 import { H3Event, getRouterParams } from 'h3'
 import * as zod from 'zod'
 import { z } from 'zod'
-import { ParseOptions, ParsedData, ValidationSchema, createBadRequest } from '~/types'
+import { ParseOptions, ParsedData, ValidationSchema } from '~/types'
 
 export default function useValidatedParams<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
@@ -14,6 +14,10 @@ export default function useValidatedParams<T extends ValidationSchema | z.ZodRaw
     const parsed = finalSchema.parse(params, parseOptions)
     return parsed
   } catch (error) {
-    throw createBadRequest(error as zod.ZodError)
+    throw createError({
+      statusCode: 400,
+      message: 'zod.input.invalid',
+      data: (error as zod.ZodError).issues,
+    })
   }
 }

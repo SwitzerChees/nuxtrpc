@@ -14,6 +14,10 @@ export default function useValidatedOutput<T extends zod.ZodType<any, any>>(
     const parsed = finalSchema.parse(output, parseOptions)
     return serialize(parsed)
   } catch (error) {
-    throw createError(error as zod.ZodError)
+    throw createError({
+      statusCode: 500,
+      message: 'zod.input.invalid',
+      data: (error as zod.ZodError).issues,
+    })
   }
 }

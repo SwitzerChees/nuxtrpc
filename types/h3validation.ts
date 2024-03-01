@@ -1,5 +1,3 @@
-import { createError } from 'h3'
-import * as zod from 'zod'
 import { z } from 'zod'
 
 export type UnknownKeysParam = 'passthrough' | 'strict' | 'strip'
@@ -15,13 +13,3 @@ export type ParsedData<T extends ValidationSchema | z.ZodRawShape> = T extends V
     ? z.output<z.ZodObject<T>>
     : never
 export type ParseOptions = Partial<z.ParseParams>
-
-export const DEFAULT_ERROR_MESSAGE = 'Bad Request'
-export const DEFAULT_ERROR_STATUS = 400
-export function createBadRequest(error: zod.ZodError) {
-  return createError({
-    statusCode: DEFAULT_ERROR_STATUS,
-    statusText: DEFAULT_ERROR_MESSAGE,
-    data: error,
-  })
-}

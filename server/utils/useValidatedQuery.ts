@@ -2,7 +2,7 @@ import { H3Event } from 'h3'
 import { parse as superparse } from 'superjson'
 import * as zod from 'zod'
 import { z } from 'zod'
-import { ParseOptions, ParsedData, ValidationSchema, createBadRequest } from '~/types'
+import { ParseOptions, ParsedData, ValidationSchema } from '~/types'
 
 export default function useValidatedQuery<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
@@ -20,6 +20,10 @@ export default function useValidatedQuery<T extends ValidationSchema | z.ZodRawS
     const parsed = finalSchema.parse(query, parseOptions)
     return parsed
   } catch (error) {
-    throw createBadRequest(error as zod.ZodError)
+    throw createError({
+      statusCode: 400,
+      message: 'zod.input.invalid',
+      data: (error as zod.ZodError).issues,
+    })
   }
 }

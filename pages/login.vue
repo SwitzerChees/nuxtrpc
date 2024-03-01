@@ -12,7 +12,7 @@
         <InputText id="password" v-model="user.password" type="password" aria-describedby="password-help" @keydown.enter="login()" />
       </div>
       <Button class="mt-2" :disabled="isLoading" @click="login()"><span class="w-full text-center">Login</span></Button>
-      <small class="text-center text-red-400">{{ error }}</small>
+      <small class="text-center text-red-400">{{ formatedError?.message }}</small>
       <small class="font-bold text-center">or</small>
       <NuxtLink to="/registration" class="text-sm font-bold text-center text-blue-400">Create New Account</NuxtLink>
     </div>
@@ -38,5 +38,6 @@
     },
     immediate: false,
   })
-  const { isLoading, error, execute: login } = apiLogin
+
+  const { isLoading, execute: login, formatedError } = apiLogin
 </script>
