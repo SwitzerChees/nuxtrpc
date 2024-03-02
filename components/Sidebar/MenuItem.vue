@@ -2,6 +2,7 @@
   <li>
     <Transition>
       <NuxtLink
+        v-tooltip="expanded ? '' : title"
         :to="to"
         class="flex items-center gap-2 p-2 px-4 transition-colors hover:bg-stone-400 rounded-2xl"
         :class="{

@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="relative flex flex-col gap-2 p-2 transition-all duration-300 bg-stone-700"
+    class="relative flex flex-col gap-2 p-2 px-4 transition-all duration-300 bg-stone-700"
     :class="{
       'w-20 min-w-20': !sidebarOpen,
       'w-72 min-w-72': sidebarOpen,
@@ -15,7 +15,12 @@
           'scale-75': !sidebarOpen,
         }" />
     </NuxtLink>
-    <Button class="absolute w-10 h-10 right-2 top-2" rounded outlined @click="sidebarOpen = !sidebarOpen">
+    <Button
+      class="absolute w-10 h-10 right-4 top-2"
+      :class="{ 'right-5': !sidebarOpen }"
+      rounded
+      outlined
+      @click="sidebarOpen = !sidebarOpen">
       <Icon name="lets-icons:expand-left" class="flex-shrink-0 -ml-1 transition-all duration-300" :class="{ 'rotate-180': !sidebarOpen }" />
     </Button>
     <ul class="flex flex-col grow">
