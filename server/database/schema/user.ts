@@ -1,6 +1,6 @@
 import { text, pgTable, uuid } from 'drizzle-orm/pg-core'
 import { InferInsertModel, InferSelectModel, relations, sql } from 'drizzle-orm'
-import { postTable, roleTable } from '.'
+import { postTable, sessionTable } from '.'
 
 export const userTable = pgTable('users', {
   id: uuid('id')
@@ -11,7 +11,7 @@ export const userTable = pgTable('users', {
 })
 export const usersRelations = relations(userTable, ({ many }) => ({
   posts: many(postTable),
-  roles: many(roleTable),
+  sessions: many(sessionTable),
 }))
 export type UserSelect = InferSelectModel<typeof userTable>
 export type UserInsert = InferInsertModel<typeof userTable>

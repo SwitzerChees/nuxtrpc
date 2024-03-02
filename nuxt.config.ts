@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   //   ],
   // },
   modules: ['@nuxtjs/i18n', 'nuxt-primevue', '@nuxtjs/device', 'nuxt-icon'],
-  css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css'],
+  css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css', '~/assets/css/style.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
