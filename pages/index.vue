@@ -1,23 +1,11 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-2 grow">
-    <div v-if="users" class="p-4 rounded bg-slate-700">
-      <h1 class="text-2xl font-bold">Users {{ isLoading || helloData?.hello }}</h1>
-    </div>
+    <h1 class="text-2xl font-bold">Users {{ isLoading || helloData?.hello }}</h1>
     <Button :disabled="isLoading" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { APIRoutes } from '~/types'
-
-  const userQueryParams = reactive({ withPosts: false })
-  const fetchUsers = useAPI(APIRoutes.User.Get, {
-    errorToast: true,
-    input: userQueryParams,
-    watch: [userQueryParams],
-  })
-  const { data: users } = fetchUsers
-
   const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
 
   const fetchPost = useAPI(APIRoutes.Hello.ByName, {

@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-  import { APIRoutes } from '~/types'
-
   const user = reactive({
     username: '',
     password: '',

@@ -16,15 +16,17 @@
     <Column expander style="width: 5rem" />
     <Column field="id" header="ID" sortable class="max-w-20"></Column>
     <Column field="username" header="Username" sortable></Column>
-    <template #expansion="slotProps">
-      {{ slotProps }}
+    <template #expansion="{ data }">
+      <DataTable v-if="data.sessions.length > 0" :value="data.sessions">
+        <Column field="id" header="ID" sortable class="max-w-20"></Column>
+        <Column field="expiresAt" header="Expires At" sortable class="max-w-20"></Column>
+      </DataTable>
+      <div v-else class="text-center text-red-400">No active Sessions.</div>
     </template>
   </DataTable>
 </template>
 
 <script setup lang="ts">
-  import { APIRoutes } from '~/types'
-
   const expandedRows = ref([])
 
   const fetchUsers = useAPI(APIRoutes.User.Get, {

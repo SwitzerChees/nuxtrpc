@@ -5,20 +5,19 @@ export default defineNuxtConfig({
     typedPages: true,
     asyncContext: true,
   },
-  // imports: {
-  //   presets: [
-  //     {
-  //       from: 'h3',
-  //       imports: [
-  //         {
-  //           name: 'H3Event',
-  //           type: true,
-  //           as: 'H3Event',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  imports: {
+    presets: [
+      {
+        from: '~/types',
+        imports: [
+          {
+            name: 'APIRoutes',
+            as: 'APIRoutes',
+          },
+        ],
+      },
+    ],
+  },
   modules: ['@nuxtjs/i18n', 'nuxt-primevue', '@nuxtjs/device', 'nuxt-icon'],
   css: ['~/assets/css/theme.css', 'primevue/resources/themes/aura-dark-green/theme.css', '~/assets/css/style.css'],
   postcss: {

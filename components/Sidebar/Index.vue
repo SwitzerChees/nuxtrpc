@@ -2,8 +2,8 @@
   <aside
     class="relative flex flex-col gap-2 p-2 transition-all duration-300 bg-stone-700"
     :class="{
-      'w-20': !sidebarOpen,
-      'w-72': sidebarOpen,
+      'w-20 min-w-20': !sidebarOpen,
+      'w-72 min-w-72': sidebarOpen,
       'p-1': !sidebarOpen,
     }">
     <NuxtLink to="/" class="mx-auto mb-4 mt-14">
@@ -21,21 +21,30 @@
     <ul class="flex flex-col grow">
       <SidebarMenuItem to="/users" title="Users" icon="mdi:users" :expanded="sidebarOpen" />
     </ul>
-    <div class="flex items-center gap-2 p-2">
-      <Button rounded outlined severity="warning" class="flex-shrink-0 gap-2 transition-all" :disabled="isLoading" @click="logout()">
-        <Icon name="tabler:logout-2" class="flex-shrink-0" size="1.3rem" />
-        <span v-if="sidebarOpen">Logout</span></Button
-      >
-      <small class="font-bold text-center text-green-500 truncate grow">{{ user?.username }}</small>
+    <div>
+      <div
+        class="flex items-center justify-center gap-2 py-8 font-bold text-green-500 truncate grow"
+        :class="{
+          'flex-col': !sidebarOpen,
+        }">
+        <Icon name="mdi:account" class="flex-shrink-0" size="2.5rem" />
+        <span>{{ userName }}</span>
+      </div>
     </div>
+    <ul>
+      <SidebarMenuItem to="#" title="Logout" icon="tabler:logout-2" :expanded="sidebarOpen" @click="logout()" />
+    </ul>
   </aside>
 </template>
 
 <script setup lang="ts">
-  import { APIRoutes } from '~/types'
+  const sidebarOpen = useCookie('sidebarOpen', {
+    default: () => true,
+  })
 
-  const sidebarOpen = ref(true)
   const { user } = useUser()
+
+  const userName = computed(() => (sidebarOpen.value ? user?.value?.username : user?.value?.username[0]?.toUpperCase()))
 
   const apiLogout = useAPI(APIRoutes.Auth.Logout, {
     errorToast: true,
@@ -44,5 +53,5 @@
     },
     immediate: false,
   })
-  const { isLoading, execute: logout } = apiLogout
+  const { execute: logout } = apiLogout
 </script>

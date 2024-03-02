@@ -20,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-  import { APIRoutes } from '~/types'
-
   const route = useRoute()
 
   const user = reactive({
