@@ -20,6 +20,9 @@
     <Column field="username" header="Username" sortable></Column>
     <template #expansion="{ data }">
       <DataTable v-if="data.sessions.length > 0" :value="data.sessions" sort-field="expiresAt" :sort-order="1">
+        <template #header>
+          <h2 class="text-xl font-bold">Active Sessions</h2>
+        </template>
         <Column field="id" header="ID" sortable class="max-w-20"></Column>
         <Column field="expiresAt" header="Expires At" sortable class="max-w-20">
           <template #body="{ data: { expiresAt } }">
