@@ -1,12 +1,12 @@
 <template>
   <aside
-    class="relative flex flex-col gap-2 p-2 px-4 transition-all duration-300 bg-stone-700"
+    class="relative flex flex-col gap-2 p-4 transition-all duration-300 bg-stone-700"
     :class="{
       'w-20 min-w-20': !sidebarOpen,
       'w-72 min-w-72': sidebarOpen,
       'p-1': !sidebarOpen,
     }">
-    <NuxtLink to="/" class="mx-auto mb-4 mt-14">
+    <NuxtLink to="/" class="flex flex-col items-center gap-4 mx-auto mb-4 mt-14">
       <img
         src="~/assets/images/logo.png"
         alt="Logo"
@@ -14,9 +14,10 @@
         :class="{
           'scale-75': !sidebarOpen,
         }" />
+      <h1 class="text-xl font-bold">{{ logoTitle }}</h1>
     </NuxtLink>
     <Button
-      class="absolute w-10 h-10 right-4 top-2"
+      class="absolute w-10 h-10 right-4 top-4"
       :class="{ 'right-5': !sidebarOpen }"
       rounded
       outlined
@@ -50,6 +51,7 @@
   const { user } = useUser()
 
   const userName = computed(() => (sidebarOpen.value ? user?.value?.username : user?.value?.username[0]?.toUpperCase()))
+  const logoTitle = computed(() => (sidebarOpen.value ? 'Kebap Guide' : 'KG'))
 
   const apiLogout = useAPI(APIRoutes.Auth.Logout, {
     errorToast: true,
