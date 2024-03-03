@@ -37,4 +37,5 @@ export default defineNuxtConfig({
       jit: true,
     },
   },
+  nitro: {},
 })

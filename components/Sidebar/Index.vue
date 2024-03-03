@@ -25,7 +25,7 @@
       <Icon name="lets-icons:expand-left" class="flex-shrink-0 -ml-1 transition-all duration-300" :class="{ 'rotate-180': !sidebarOpen }" />
     </Button>
     <ul class="flex flex-col grow">
-      <SidebarMenuItem to="/users" title="Users" icon="mdi:users" :expanded="sidebarOpen" />
+      <SidebarMenuItem to="/cockpit/users" title="Users" icon="mdi:users" :expanded="sidebarOpen" />
     </ul>
     <div>
       <div

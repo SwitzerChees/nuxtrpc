@@ -11,6 +11,9 @@
     if (route.path.startsWith('/login') || route.path.startsWith('/registration')) {
       return 'auth'
     }
+    if (route.path.startsWith('/cockpit')) {
+      return 'cockpit'
+    }
     return 'default'
   })
 </script>
