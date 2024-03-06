@@ -1,6 +1,8 @@
 import { existsSync, promises as fs } from 'fs'
+import crypto from 'crypto'
 import { NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres'
 import { migrate } from 'drizzle-orm/node-postgres/migrator'
+import { DefaultLogger, LogWriter } from 'drizzle-orm'
 import pg from 'pg'
 import * as schema from '~/server/database/schema'
 
@@ -20,7 +22,27 @@ const useDrizzle = () => {
   }
   const connect = async () => {
     await _pool.connect()
-    _db = drizzle(_pool, { schema })
+    const logger = useLogger()
+    const { logLevel } = useEnv()
+    let totalQueries = 0
+    const individualQueriesCounter: Record<string, number> = {}
+    class DrizzleLogWriter implements LogWriter {
+      write(message: string) {
+        totalQueries += 1
+        const loggingParams: Record<string, any> = {
+          component: 'drizzle',
+          totalQueries,
+        }
+        if (logLevel === 'debug') {
+          const queryHash = crypto.createHash('md5').update(message).digest('hex')
+          individualQueriesCounter[queryHash] = (individualQueriesCounter[queryHash] || 0) + 1
+          loggingParams.totalSameQuery = individualQueriesCounter[queryHash]
+        }
+        logger.child(loggingParams).debug(message)
+      }
+    }
+    const logWriter = new DefaultLogger({ writer: new DrizzleLogWriter() })
+    _db = drizzle(_pool, { schema, logger: logWriter })
   }
 
   const migration = async () => {

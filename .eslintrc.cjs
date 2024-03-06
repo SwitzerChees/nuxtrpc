@@ -18,5 +18,6 @@ module.exports = {
     quotes: [2, 'single', { avoidEscape: true }],
     semi: [2, 'never'],
     'vue/no-multiple-template-root': 0,
+    'import/no-named-as-default': 0,
   },
 }
