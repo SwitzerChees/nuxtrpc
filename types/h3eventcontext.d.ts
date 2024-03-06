@@ -8,5 +8,10 @@ declare module 'h3' {
     session: Session | undefined
     user: User | undefined
     db: NodePgDatabase<typeof schema>
+    request: {
+      method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE'
+      path: string
+      start: number
+    }
   }
 }
