@@ -48,9 +48,9 @@
     default: () => true,
   })
 
-  const { user } = useUser()
+  const myUser = useMyUser()
 
-  const userName = computed(() => (sidebarOpen.value ? user?.value?.username : user?.value?.username[0]?.toUpperCase()))
+  const userName = computed(() => (sidebarOpen.value ? myUser?.value?.username : myUser?.value?.username[0]?.toUpperCase()))
   const logoTitle = computed(() => (sidebarOpen.value ? 'Kebap Guide' : 'KG'))
 
   const apiLogout = useAPI(APIRoutes.Auth.Logout, {

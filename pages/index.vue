@@ -6,24 +6,26 @@
 </template>
 
 <script setup lang="ts">
-  const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
-
-  const fetchPost = useAPI(APIRoutes.Hello.ByName, {
-    input: reactiveInput,
-    errorToast: true,
-    onSuccess: (data) => {
-      // eslint-disable-next-line no-console
-      console.log('onSuccess', data)
-    },
-    onError: (error) => {
-      // eslint-disable-next-line no-console
-      console.error('onError', error)
-    },
-    watch: [reactiveInput],
-    watchDebounce: 300,
-    headers: {
-      'X-Custom-Header': 'hello',
-    },
-  })
-  const { isLoading, data: helloData } = fetchPost
+  const { reactiveInput, isLoading, helloData } = useHello()
+  function useHello() {
+    const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
+    const fetchPost = useAPI(APIRoutes.Hello.ByName, {
+      input: reactiveInput,
+      errorToast: true,
+      onSuccess: (data) => {
+        // eslint-disable-next-line no-console
+        console.log('onSuccess', data)
+      },
+      onError: (error) => {
+        // eslint-disable-next-line no-console
+        console.error('onError', error)
+      },
+      watch: [reactiveInput],
+      watchDebounce: 300,
+      headers: {
+        'X-Custom-Header': 'hello',
+      },
+    })
+    return { isLoading: fetchPost.isLoading, helloData: fetchPost.data, reactiveInput }
+  }
 </script>
