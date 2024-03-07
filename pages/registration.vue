@@ -29,6 +29,9 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({
+    layout: 'auth',
+  })
   const user = reactive({
     username: '',
     password: '',

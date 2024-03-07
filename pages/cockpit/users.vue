@@ -36,6 +36,9 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({
+    layout: 'cockpit',
+  })
   const expandedRows = ref([])
 
   const fetchUsers = useAPI(APIRoutes.User.Get, {

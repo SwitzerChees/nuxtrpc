@@ -6,6 +6,9 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({
+    layout: 'default',
+  })
   const { reactiveInput, isLoading, helloData } = useHello()
   function useHello() {
     const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })

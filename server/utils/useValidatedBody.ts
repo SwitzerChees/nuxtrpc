@@ -11,7 +11,8 @@ export default async function useValidatedBody<T extends ValidationSchema | z.Zo
 ): Promise<ParsedData<T>> {
   try {
     const rawBody = await readRawBody(event)
-    const body = !rawBody ? {} : parse<T>(rawBody)
+    let body = !rawBody ? {} : parse<T>(rawBody)
+    if (!body && rawBody) body = JSON.parse(rawBody)
     const finalSchema = schema instanceof z.ZodType ? schema : z.object(schema)
     const parsed = await finalSchema.parseAsync(body, parseOptions)
     return parsed

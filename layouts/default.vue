@@ -6,6 +6,11 @@
           <img class="h-8" src="~/assets/images/logo.png" alt="Kebap Guide" />
           <h1 class="text-xl font-bold">Kebap Guide</h1>
         </NuxtLink>
+        <ul class="flex items-center px-4 grow">
+          <li>
+            <NuxtLink to="/cockpit/users">Users</NuxtLink>
+          </li>
+        </ul>
       </nav>
     </header>
     <main class="flex grow max-w-[80rem]">
