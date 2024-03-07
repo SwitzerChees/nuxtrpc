@@ -1,5 +1,5 @@
 import { pgTable, uuid } from 'drizzle-orm/pg-core'
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm'
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { roleTable, userTable } from '.'
 
 export const userRoleTable = pgTable('user_roles', {

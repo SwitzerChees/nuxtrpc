@@ -1,8 +1,8 @@
 import { existsSync, promises as fs } from 'fs'
 import crypto from 'crypto'
-import { NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres'
+import { type NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres'
 import { migrate } from 'drizzle-orm/node-postgres/migrator'
-import { DefaultLogger, LogWriter } from 'drizzle-orm'
+import { DefaultLogger, type LogWriter } from 'drizzle-orm'
 import pg from 'pg'
 import * as schema from '~/server/database/schema'
 

@@ -1,5 +1,5 @@
 import { text, pgTable, uuid } from 'drizzle-orm/pg-core'
-import { InferInsertModel, InferSelectModel, relations, sql } from 'drizzle-orm'
+import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm'
 import { postTable, sessionTable } from '.'
 
 export const userTable = pgTable('users', {

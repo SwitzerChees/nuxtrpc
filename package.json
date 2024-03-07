@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .ts,.vue --max-warnings=0",
     "drizzle:push": "drizzle-kit push:pg",
     "drizzle:migration": "drizzle-kit generate:pg",
-    "drizzle:studio": "drizzle-kit studio"
+    "drizzle:studio": "drizzle-kit studio",
+    "typecheck": "nuxi typecheck"
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",

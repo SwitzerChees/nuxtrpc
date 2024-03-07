@@ -1,5 +1,5 @@
 import { pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core'
-import { InferInsertModel, InferSelectModel, relations, sql } from 'drizzle-orm'
+import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm'
 import { roleTable } from '.'
 
 export const rights = pgEnum('right', ['read', 'write'])

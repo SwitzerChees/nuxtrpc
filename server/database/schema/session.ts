@@ -1,5 +1,5 @@
 import { text, pgTable, uuid, timestamp } from 'drizzle-orm/pg-core'
-import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm'
+import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm'
 import { userTable } from '.'
 
 export const sessionTable = pgTable('sessions', {

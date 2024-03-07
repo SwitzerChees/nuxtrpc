@@ -1,7 +1,7 @@
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle'
-import { Lucia, Session, TimeSpan, User } from 'lucia'
+import { Lucia, TimeSpan, type Session, type User } from 'lucia'
 import { H3Event } from 'h3'
-import { NodePgDatabase } from 'drizzle-orm/node-postgres'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { sessionTable, userTable } from '~/server/database/schema'
 import * as schema from '~/server/database/schema'
 

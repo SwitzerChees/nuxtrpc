@@ -2,7 +2,7 @@ import { H3Event, readRawBody } from 'h3'
 import { parse } from 'superjson'
 import * as zod from 'zod'
 import { z } from 'zod'
-import { ParseOptions, ParsedData, ValidationSchema } from '~/types'
+import type { ParseOptions, ParsedData, ValidationSchema } from '~/types'
 
 export default async function useValidatedBody<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,

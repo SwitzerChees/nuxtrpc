@@ -1,7 +1,7 @@
 import { H3Event, getRouterParams } from 'h3'
 import * as zod from 'zod'
 import { z } from 'zod'
-import { ParseOptions, ParsedData, ValidationSchema } from '~/types'
+import type { ParseOptions, ParsedData, ValidationSchema } from '~/types'
 
 export default function useValidatedParams<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
