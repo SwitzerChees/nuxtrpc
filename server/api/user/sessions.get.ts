@@ -21,7 +21,7 @@ export default defineEventHandler(async (event: H3Event) => {
   const { db } = event.context
   const { isAdmin } = useUserSession()
   const isMyUser = input.userId === event.context?.user?.id
-  if (!isAdmin(event) || !isMyUser) {
+  if (!isAdmin(event) && !isMyUser) {
     throw createError({
       statusCode: 403,
       message: 'error.unauthorized',
