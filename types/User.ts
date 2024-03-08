@@ -1,4 +1,3 @@
-export type User = {
-  id: string
-  username: string
-}
+import type { UserSelect } from '~/server/database/schema'
+
+export type User = Omit<UserSelect, 'password'>

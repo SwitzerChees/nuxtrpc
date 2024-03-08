@@ -14,7 +14,8 @@
     "drizzle:push": "drizzle-kit push:pg",
     "drizzle:migration": "drizzle-kit generate:pg",
     "drizzle:studio": "drizzle-kit studio",
-    "typecheck": "nuxi typecheck"
+    "typecheck": "nuxi typecheck",
+    "prettify": "prettier --write ."
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
