@@ -3,22 +3,12 @@ import { z } from 'zod'
 
 const inputFormat = z.object({
   posts: z.boolean().optional(),
-  sessions: z.boolean().optional(),
 })
 
 const outputFormat = z.array(
   z.object({
     id: z.string(),
     username: z.string(),
-    sessions: z
-      .array(
-        z.object({
-          id: z.string(),
-          userId: z.string(),
-          expiresAt: z.date(),
-        }),
-      )
-      .optional(),
   }),
 )
 
@@ -31,7 +21,6 @@ export default defineEventHandler(async (event: H3Event) => {
   const users = await db.query.userTable.findMany({
     with: {
       posts: input.posts || undefined,
-      sessions: input.sessions || undefined,
     },
   })
   const output = useValidatedOutput(users, outputFormat)

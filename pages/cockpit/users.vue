@@ -30,12 +30,5 @@
   })
   const expandedRows = ref([])
 
-  const fetchUsers = useAPI(APIRoutes.User.Get, {
-    input: {
-      sessions: true,
-    },
-    immediate: true,
-  })
-
-  const { data: users } = fetchUsers
+  const { data: users } = useAPI(APIRoutes.User.Get)
 </script>

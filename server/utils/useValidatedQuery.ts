@@ -12,7 +12,7 @@ export default function useValidatedQuery<T extends ValidationSchema | z.ZodRawS
   try {
     const rawQuery = getQuery(event) as any
     const cleanQuery = {
-      json: JSON.parse(rawQuery.json),
+      json: rawQuery.json ? JSON.parse(rawQuery.json) : {},
       meta: rawQuery.meta ? JSON.parse(rawQuery.meta) : undefined,
     }
     const query = superparse(JSON.stringify(cleanQuery))
