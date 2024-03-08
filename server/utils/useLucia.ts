@@ -5,14 +5,10 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { sessionTable, userTable } from '~/server/database/schema'
 import * as schema from '~/server/database/schema'
 
-interface DatabaseUserAttributes {
-  username: string
-}
-
 declare module 'lucia' {
   interface Register {
     Lucia: typeof _lucia
-    DatabaseUserAttributes: DatabaseUserAttributes
+    DatabaseUserAttributes: schema.UserSelect
   }
 }
 
@@ -31,6 +27,7 @@ export const useLucia = () => {
       },
       getUserAttributes: (attributes) => {
         return {
+          id: attributes.id,
           username: attributes.username,
         }
       },

@@ -1,4 +1,5 @@
 import { H3Event } from 'h3'
+import { generateRandomString, alphabet } from 'oslo/crypto'
 
 export default defineNitroPlugin((nitroApp) => {
   const httpLogger = useLogger().child({ component: 'nitro' })
@@ -8,13 +9,19 @@ export default defineNitroPlugin((nitroApp) => {
       method: event.method,
       path: pathWithoutQuery,
       start: Date.now(),
+      requestId: generateRandomString(16, alphabet('A-Z', '0-9')),
     }
-    httpLogger.info(`Request: ${event.method} ${pathWithoutQuery}`)
+    const logger = httpLogger.child(event.context.request)
+    event.context.logger = logger
+    logger.info(`Request: ${event.method} ${pathWithoutQuery}`)
   })
   nitroApp.hooks.hook('afterResponse', (event: H3Event) => {
     const status = getResponseStatus(event)
-    const { method, path, start } = event.context.request
+    const {
+      logger,
+      request: { method, path, start },
+    } = event.context
     const duration = Date.now() - start
-    httpLogger.child({ status }).info(`Response ${status}: ${method} ${path} - ${duration}ms`)
+    logger.child({ status, duration }).info(`Response ${status}: ${method} ${path} - ${duration}ms`)
   })
 })
