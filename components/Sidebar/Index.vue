@@ -38,7 +38,7 @@
       </div>
     </div>
     <ul>
-      <SidebarMenuItem to="#" title="Logout" icon="tabler:logout-2" :expanded="sidebarOpen" @click="logout()" />
+      <SidebarMenuItem title="Logout" icon="tabler:logout-2" :expanded="sidebarOpen" @click="logout()" />
     </ul>
   </aside>
 </template>
@@ -54,7 +54,6 @@
   const logoTitle = computed(() => (sidebarOpen.value ? 'Kebap Guide' : 'KG'))
 
   const apiLogout = useAPI(APIRoutes.Auth.Logout, {
-    errorToast: true,
     onSuccess: () => {
       location.reload()
     },

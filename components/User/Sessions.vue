@@ -22,6 +22,5 @@
     input: {
       userId: props.userId,
     },
-    errorToast: true,
   })
 </script>

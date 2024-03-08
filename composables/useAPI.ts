@@ -29,6 +29,7 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   const asyncData = useAsyncData<TRoute['Output']>(
     apiRoute.Path,
     () => {
+      if (opts.errorToast === undefined) opts.errorToast = true
       let apiRoutePath = apiRoute.Path
       const params = ('input' in opts ? opts.input : undefined) as any
       if (params && apiRoutePath.includes('[') && apiRoutePath.includes(']')) {

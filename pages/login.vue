@@ -33,7 +33,6 @@
 
   const apiLogin = useAPI(APIRoutes.Auth.Login, {
     input: user,
-    errorToast: true,
     onSuccess: () => {
       location.reload()
     },

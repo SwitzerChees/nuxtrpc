@@ -40,7 +40,6 @@
 
   const apiRegistration = useAPI(APIRoutes.Auth.Registration, {
     input: user,
-    errorToast: true,
     onSuccess: () => {
       navigateTo(`/login?username=${user.username}`, { replace: true })
     },

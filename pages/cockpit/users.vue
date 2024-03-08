@@ -35,7 +35,6 @@
       sessions: true,
     },
     immediate: true,
-    errorToast: true,
   })
 
   const { data: users } = fetchUsers

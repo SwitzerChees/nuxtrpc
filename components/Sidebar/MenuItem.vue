@@ -4,7 +4,7 @@
       <NuxtLink
         v-tooltip="expanded ? '' : title"
         :to="to"
-        class="flex items-center gap-2 p-2 px-4 transition-colors hover:bg-stone-400 rounded-2xl"
+        class="flex items-center gap-2 p-2 px-4 transition-colors cursor-pointer hover:bg-stone-400 rounded-2xl"
         :class="{
           'bg-stone-500': isActive,
           'shadow-inner': isActive,

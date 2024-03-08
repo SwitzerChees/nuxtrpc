@@ -14,7 +14,6 @@
     const reactiveInput = reactive({ name: 'World', timestamp: new Date(), person: { age: 26 }, hobbies: new Set(['coding', 'gaming']) })
     const fetchPost = useAPI(APIRoutes.Hello.Get, {
       input: reactiveInput,
-      errorToast: true,
       onSuccess: (data) => {
         // eslint-disable-next-line no-console
         console.log('onSuccess', data)
