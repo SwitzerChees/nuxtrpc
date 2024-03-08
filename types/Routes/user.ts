@@ -1,6 +1,7 @@
 import type { APIMethod } from '.'
 import type { APIUserGetInput, APIUserGetOutput } from '~/server/api/user.get'
 import type { APIUserMyOuserOutput } from '~/server/api/user/myuser.get'
+import type { APISessionsByUserIdInput, APISessionsByUserIdOutput } from '~/server/api/user/sessions.get'
 
 const User = {
   Get: {
@@ -13,6 +14,12 @@ const User = {
     Path: '/api/user/myuser',
     Method: 'GET' as APIMethod,
     Output: {} as APIUserMyOuserOutput,
+  },
+  Sessions: {
+    Path: '/api/user/sessions',
+    Method: 'GET' as APIMethod,
+    Input: {} as APISessionsByUserIdInput,
+    Output: {} as APISessionsByUserIdOutput,
   },
 }
 
