@@ -7,9 +7,12 @@ import type { User } from '~/types'
 
 const useUserSession = () => {
   const getUserSession = async (event: H3Event) => {
-    const sessionToken = getCookie(event, 'session')
+    const {
+      session: { cookieName },
+    } = useEnv()
+    const sessionToken = getCookie(event, cookieName)
     if (!sessionToken) return { session: undefined, user: undefined }
-    const { db } = useDrizzle()
+    const { db } = event.context
     const session = await db.query.sessionTable.findFirst({
       where: (session, { eq }) => eq(session.token, sessionToken),
       with: {
@@ -36,7 +39,7 @@ const useUserSession = () => {
     return userSession
   }
   const createUserSession = async (event: H3Event, user: UserSelect) => {
-    const { db } = useDrizzle()
+    const { db } = event.context
     const { session } = useEnv()
     const tokenData = new TextEncoder().encode(generateRandomString(64, alphabet('a-z', '0-9', 'A-Z')))
     const token = encodeHex(await sha256(tokenData))
@@ -52,9 +55,8 @@ const useUserSession = () => {
   }
 
   const refreshUserSession = async (event: H3Event) => {
-    const session = event.context.session
+    const { session, db } = event.context
     if (!session) return
-    const { db } = useDrizzle()
     const {
       session: { timeoutDays, refreshDays },
     } = useEnv()
@@ -74,12 +76,14 @@ const useUserSession = () => {
   }
 
   const removeUserSession = async (event: H3Event) => {
-    const session = event.context.session
+    const { session, db } = event.context
     if (session) {
-      const { db } = useDrizzle()
       await db.delete(sessionTable).where(eq(sessionTable.id, session.id))
     }
-    setCookie(event, 'session', '', { maxAge: 0 })
+    const {
+      session: { cookieName },
+    } = useEnv()
+    setCookie(event, cookieName, '', { maxAge: 0 })
   }
 
   const hasRole = (event: H3Event, role: 'admin') => {
