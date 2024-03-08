@@ -36,7 +36,8 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
           apiRoutePath = apiRoutePath.replace(`[${key}]`, params[key])
         })
       }
-      return $fetch<TRoute['Output']>(apiRoutePath, {
+      const fetch = useRequestFetch()
+      return fetch<TRoute['Output']>(apiRoutePath, {
         method: apiRoute.Method,
         onRequest: ({ options }) => {
           options.headers = new Headers(opts.headers || options.headers || {})

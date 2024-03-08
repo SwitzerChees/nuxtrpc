@@ -72,7 +72,7 @@ const useUserSession = () => {
       session: { cookieName, timeoutDays },
     } = useEnv()
     const timeoutSeconds = timeoutDays / 1000
-    setCookie(event, cookieName, token, { maxAge: timeoutSeconds, httpOnly: isProd, sameSite: 'lax' })
+    setCookie(event, cookieName, token, { maxAge: timeoutSeconds, secure: isProd, httpOnly: isProd, sameSite: 'lax' })
   }
 
   const removeUserSession = async (event: H3Event) => {
