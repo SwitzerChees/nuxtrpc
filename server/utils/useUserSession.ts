@@ -92,6 +92,8 @@ const useUserSession = () => {
     return user.roles.includes(role)
   }
 
-  return { getUserSession, createUserSession, refreshUserSession, removeUserSession, hasRole }
+  const isAdmin = (event: H3Event) => hasRole(event, 'admin')
+
+  return { getUserSession, createUserSession, refreshUserSession, removeUserSession, hasRole, isAdmin }
 }
 export default useUserSession
