@@ -1,8 +1,9 @@
-import { and, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { H3Event } from 'h3'
 import { generateRandomString, alphabet, sha256 } from 'oslo/crypto'
 import { encodeHex } from 'oslo/encoding'
-import { type UserSelect, sessionTable } from '~/server/database/schema'
+import { type UserSelect, type SessionSelect, sessionTable } from '~/server/database/schema'
+import type { User } from '~/types'
 
 const useUserSession = () => {
   const getUserSession = async (event: H3Event) => {
@@ -24,7 +25,15 @@ const useUserSession = () => {
       },
     })
     if (!session) return { session: undefined, user: undefined }
-    return { session, user: session.user }
+    const userSession: { session: SessionSelect; user: User } = {
+      session: { id: session.id, userId: session.userId, expiresAt: session.expiresAt, token: session.token },
+      user: {
+        id: session.user.id,
+        username: session.user.username,
+        roles: session.user.userRoles.map((userRole) => userRole.role.name),
+      },
+    }
+    return userSession
   }
   const createUserSession = async (event: H3Event, user: UserSelect) => {
     const { db } = useDrizzle()
@@ -43,14 +52,20 @@ const useUserSession = () => {
   }
 
   const removeUserSession = async (event: H3Event) => {
-    const { session } = await getUserSession(event)
+    const session = event.context.session
     if (session) {
       const { db } = useDrizzle()
-      await db.delete(sessionTable).where(and(eq(sessionTable.id, session.id), eq(sessionTable.userId, session.userId)))
+      await db.delete(sessionTable).where(eq(sessionTable.id, session.id))
     }
     setCookie(event, 'session', '', { maxAge: 0 })
   }
 
-  return { getUserSession, createUserSession, removeUserSession }
+  const hasRole = (event: H3Event, role: 'admin') => {
+    const user = event.context.user
+    if (!user) return false
+    return user.roles.includes(role)
+  }
+
+  return { getUserSession, createUserSession, removeUserSession, hasRole }
 }
 export default useUserSession
