@@ -28,12 +28,13 @@ const useDrizzle = () => {
           component: 'drizzle',
           totalQueries,
         }
+        const shortQuery = `${message.split('from')[0].trimEnd()} from ${message.split('from')[1].split(' ')[1]}`
         if (logLevel === 'debug') {
-          const queryHash = crypto.createHash('md5').update(message).digest('hex')
+          const queryHash = crypto.createHash('md5').update(shortQuery).digest('hex')
           individualQueriesCounter[queryHash] = (individualQueriesCounter[queryHash] || 0) + 1
           loggingParams.totalSameQuery = individualQueriesCounter[queryHash]
         }
-        logger.child(loggingParams).debug(message)
+        logger.child(loggingParams).debug(shortQuery)
       }
     }
     const logWriter = new DefaultLogger({ writer: new DrizzleLogWriter() })

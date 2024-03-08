@@ -12,7 +12,15 @@ const useUserSession = () => {
     const session = await db.query.sessionTable.findFirst({
       where: (session, { eq }) => eq(session.token, sessionToken),
       with: {
-        user: true,
+        user: {
+          with: {
+            userRoles: {
+              with: {
+                role: true,
+              },
+            },
+          },
+        },
       },
     })
     if (!session) return { session: undefined, user: undefined }
