@@ -1,5 +1,5 @@
 import { pgTable, uuid } from 'drizzle-orm/pg-core'
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
+import { relations, type InferInsertModel, type InferSelectModel } from 'drizzle-orm'
 import { permissionTable, roleTable } from '.'
 
 export const rolePermissionTable = pgTable('role_permissions', {
@@ -10,5 +10,9 @@ export const rolePermissionTable = pgTable('role_permissions', {
     .notNull()
     .references(() => permissionTable.id),
 })
+export const rolePermissionsRelations = relations(rolePermissionTable, ({ one }) => ({
+  role: one(roleTable, { fields: [rolePermissionTable.roleId], references: [roleTable.id] }),
+  permission: one(permissionTable, { fields: [rolePermissionTable.permissionId], references: [permissionTable.id] }),
+}))
 export type RolePermissionSelect = InferSelectModel<typeof rolePermissionTable>
 export type RolePermissionInsert = InferInsertModel<typeof rolePermissionTable>

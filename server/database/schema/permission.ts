@@ -1,6 +1,6 @@
 import { pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core'
 import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm'
-import { roleTable } from '.'
+import { rolePermissionTable } from '.'
 
 export const rights = pgEnum('right', ['read', 'write'])
 export const permissionTable = pgTable('permissions', {
@@ -11,7 +11,7 @@ export const permissionTable = pgTable('permissions', {
   right: rights('right').notNull(),
 })
 export const permissionsRelations = relations(permissionTable, ({ many }) => ({
-  roles: many(roleTable),
+  rolePermissions: many(rolePermissionTable),
 }))
 export type PermissionSelect = InferSelectModel<typeof permissionTable>
 export type PermissionInsert = InferInsertModel<typeof permissionTable>

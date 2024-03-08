@@ -11,6 +11,7 @@ export const sessionTable = pgTable('sessions', {
     withTimezone: true,
     mode: 'date',
   }).notNull(),
+  token: text('token').notNull(),
 })
 export const sessionsRelations = relations(sessionTable, ({ one }) => ({
   user: one(userTable, { fields: [sessionTable.userId], references: [userTable.id] }),
