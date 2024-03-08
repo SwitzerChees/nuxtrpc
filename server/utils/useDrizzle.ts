@@ -28,7 +28,9 @@ const useDrizzle = () => {
           component: 'drizzle',
           totalQueries,
         }
-        const shortQuery = `${message.split('from')[0].trimEnd()} from ${message.split('from')[1].split(' ')[1]}`
+        const shortQuery = message?.includes('from')
+          ? `${message.split('from')[0].trimEnd()} from ${message.split('from')[1].split(' ')[1]}`
+          : message
         if (logLevel === 'debug') {
           const queryHash = crypto.createHash('md5').update(shortQuery).digest('hex')
           individualQueriesCounter[queryHash] = (individualQueriesCounter[queryHash] || 0) + 1

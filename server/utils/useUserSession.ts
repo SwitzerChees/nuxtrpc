@@ -37,7 +37,7 @@ const useUserSession = () => {
   }
   const createUserSession = async (event: H3Event, user: UserSelect) => {
     const { db } = useDrizzle()
-    const { sessionTimeoutDays } = useEnv()
+    const { session } = useEnv()
     const tokenData = new TextEncoder().encode(generateRandomString(64, alphabet('a-z', '0-9', 'A-Z')))
     const token = encodeHex(await sha256(tokenData))
     await db
@@ -45,10 +45,32 @@ const useUserSession = () => {
       .values({
         userId: user.id,
         token,
-        expiresAt: new Date(Date.now() + sessionTimeoutDays),
+        expiresAt: new Date(Date.now() + session.timeoutDays),
       })
       .returning()
-    setCookie(event, 'session', token, { maxAge: sessionTimeoutDays, httpOnly: true, sameSite: 'lax' })
+    setSessionCookie(event, token)
+  }
+
+  const refreshUserSession = async (event: H3Event) => {
+    const session = event.context.session
+    if (!session) return
+    const { db } = useDrizzle()
+    const {
+      session: { timeoutDays, refreshDays },
+    } = useEnv()
+    if (session.expiresAt.getTime() - Date.now() > refreshDays) return
+    session.expiresAt = new Date(Date.now() + timeoutDays)
+    await db.update(sessionTable).set({ expiresAt: session.expiresAt }).where(eq(sessionTable.id, session.id))
+    setSessionCookie(event, session.token)
+  }
+
+  const setSessionCookie = (event: H3Event, token: string) => {
+    const {
+      isProd,
+      session: { cookieName, timeoutDays },
+    } = useEnv()
+    const timeoutSeconds = timeoutDays / 1000
+    setCookie(event, cookieName, token, { maxAge: timeoutSeconds, httpOnly: isProd, sameSite: 'lax' })
   }
 
   const removeUserSession = async (event: H3Event) => {
@@ -66,6 +88,6 @@ const useUserSession = () => {
     return user.roles.includes(role)
   }
 
-  return { getUserSession, createUserSession, removeUserSession, hasRole }
+  return { getUserSession, createUserSession, refreshUserSession, removeUserSession, hasRole }
 }
 export default useUserSession
