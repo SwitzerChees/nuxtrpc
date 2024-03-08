@@ -14,7 +14,7 @@
         :class="{
           'scale-75': !sidebarOpen,
         }" />
-      <h1 class="text-xl font-bold">{{ logoTitle }}</h1>
+      <h1 class="text-xl font-bold truncate">{{ logoTitle }}</h1>
     </NuxtLink>
     <Button
       class="absolute w-10 h-10 right-4 top-4"
@@ -34,7 +34,7 @@
           'flex-col': !sidebarOpen,
         }">
         <Icon name="mdi:account" class="flex-shrink-0" size="2.5rem" />
-        <span>{{ userName }}</span>
+        <span class="truncate">{{ userName }}</span>
       </div>
     </div>
     <ul>

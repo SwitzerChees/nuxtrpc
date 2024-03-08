@@ -3,8 +3,8 @@
     <template #header>
       <h2 class="text-xl font-bold">Active Sessions</h2>
     </template>
-    <Column field="id" header="ID" sortable class="max-w-20"></Column>
-    <Column field="expiresAt" header="Expires At" sortable class="max-w-20">
+    <Column field="id" header="ID" sortable class="truncate max-w-20"></Column>
+    <Column field="expiresAt" header="Expires At" sortable class="truncate max-w-20">
       <template #body="{ data: { expiresAt } }">
         <span>{{ formatDate(expiresAt, true) }}</span>
       </template>
@@ -14,13 +14,11 @@
 </template>
 
 <script setup lang="ts">
-  const props = defineProps<{
-    userId: string
-  }>()
+  const props = defineProps<{ userId: string }>()
 
+  const input = reactive(props)
   const { data: sessions } = useAPI(APIRoutes.User.Sessions, {
-    input: {
-      userId: props.userId,
-    },
+    input,
+    watch: [input],
   })
 </script>
