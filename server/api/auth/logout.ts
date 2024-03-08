@@ -8,11 +8,7 @@ const outputFormat = z.object({
 export type APIAuthLogoutOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { session } = event.context
-  const { lucia } = useLucia()
-  if (!session?.id) return true
-  await lucia.invalidateSession(session.id)
-  const sessionCookie = lucia.createBlankSessionCookie()
-  setCookie(event, sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+  const { removeUserSession } = useUserSession()
+  await removeUserSession(event)
   return useValidatedOutput({ success: true }, outputFormat)
 })

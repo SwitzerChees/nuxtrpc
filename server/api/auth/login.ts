@@ -16,7 +16,6 @@ export type APIAuthLoginOutput = z.infer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedBody(event, inputFormat)
-  const { lucia } = useLucia()
   const { username, password } = input
   const { db } = event.context
 
@@ -36,20 +35,7 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'error.login.password.invalid',
     })
   }
-  const session = await lucia.createSession(user.id, {})
-  if (!session) {
-    throw createError({
-      statusCode: 500,
-      message: 'error.session.failed',
-    })
-  }
-  const sessionCookie = lucia.createSessionCookie(session.id)
-  if (!sessionCookie) {
-    throw createError({
-      statusCode: 500,
-      message: 'error.session.cookie.failed',
-    })
-  }
-  setCookie(event, sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+  const { createUserSession } = useUserSession()
+  await createUserSession(event, user)
   return useValidatedOutput(input, outputFormat)
 })

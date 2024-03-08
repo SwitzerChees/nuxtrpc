@@ -1,9 +1,11 @@
 import { text, pgTable, uuid, timestamp } from 'drizzle-orm/pg-core'
-import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm'
+import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm'
 import { userTable } from '.'
 
 export const sessionTable = pgTable('sessions', {
-  id: text('id').primaryKey(),
+  id: uuid('id')
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
   userId: uuid('user_id')
     .notNull()
     .references(() => userTable.id),
