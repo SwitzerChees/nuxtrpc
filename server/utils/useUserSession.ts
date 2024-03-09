@@ -85,14 +85,6 @@ const useUserSession = () => {
     setCookie(event, cookieName, '', { maxAge: 0 })
   }
 
-  const hasRole = (event: H3Event, role: 'admin') => {
-    const user = event.context.user
-    if (!user) return false
-    return user.roles.includes(role)
-  }
-
-  const isAdmin = (event: H3Event) => hasRole(event, 'admin')
-
-  return { getUserSession, createUserSession, refreshUserSession, removeUserSession, hasRole, isAdmin }
+  return { getUserSession, createUserSession, refreshUserSession, removeUserSession }
 }
 export default useUserSession

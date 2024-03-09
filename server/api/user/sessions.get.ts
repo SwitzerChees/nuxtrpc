@@ -15,15 +15,9 @@ export type APISessionsByUserIdOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = useValidatedQuery(event, inputFormat)
-  const { db } = event.context
-  const { isAdmin } = useUserSession()
+  const { db, isAdmin } = getContext(event)
   const isMyUser = input.userId === event.context?.user?.id
-  if (!isAdmin(event) && !isMyUser) {
-    throw createError({
-      statusCode: 403,
-      message: 'error.unauthorized',
-    })
-  }
+  await checkAuthorized(() => isAdmin() || isMyUser)
   const sessions = await db.query.sessionTable.findMany({
     where: (sessions, { eq }) => eq(sessions.userId, input.userId),
   })
