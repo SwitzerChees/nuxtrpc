@@ -1,5 +1,4 @@
 import { eq } from 'drizzle-orm'
-import { H3Event } from 'h3'
 import { generateRandomString, alphabet, sha256 } from 'oslo/crypto'
 import { encodeHex } from 'oslo/encoding'
 import { type UserSelect, type SessionSelect, sessionTable } from '~/server/database/schema'

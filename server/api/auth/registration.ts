@@ -1,6 +1,4 @@
-import { H3Event } from 'h3'
 import { Argon2id } from 'oslo/password'
-import { z } from 'zod'
 import { userTable } from '~/server/database/schema'
 
 const inputFormat = z.object({
@@ -13,8 +11,8 @@ const outputFormat = z.object({
   username: z.string().min(3).max(32),
 })
 
-export type APIAuthRegistrationInput = z.infer<typeof inputFormat>
-export type APIAuthRegistrationOutput = z.infer<typeof outputFormat>
+export type APIAuthRegistrationInput = zinfer<typeof inputFormat>
+export type APIAuthRegistrationOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = await useValidatedBody(event, inputFormat)

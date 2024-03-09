@@ -1,6 +1,3 @@
-import { H3Event } from 'h3'
-import { z } from 'zod'
-
 const inputFormat = z.object({
   userId: z.string(),
 })
@@ -13,8 +10,8 @@ const outputFormat = z.array(
   }),
 )
 
-export type APISessionsByUserIdInput = z.infer<typeof inputFormat>
-export type APISessionsByUserIdOutput = z.infer<typeof outputFormat>
+export type APISessionsByUserIdInput = zinfer<typeof inputFormat>
+export type APISessionsByUserIdOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   const input = useValidatedQuery(event, inputFormat)

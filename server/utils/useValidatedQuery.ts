@@ -1,4 +1,3 @@
-import { H3Event } from 'h3'
 import { parse as superparse } from 'superjson'
 import * as zod from 'zod'
 import { z } from 'zod'

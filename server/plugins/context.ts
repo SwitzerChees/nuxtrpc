@@ -1,5 +1,3 @@
-import { H3Event } from 'h3'
-
 export default defineNitroPlugin(async (nitroApp) => {
   const { connect } = useDrizzle()
   await connect()

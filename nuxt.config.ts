@@ -38,5 +38,39 @@ export default defineNuxtConfig({
       jit: true,
     },
   },
-  nitro: {},
+  nitro: {
+    imports: {
+      presets: [
+        {
+          from: 'h3',
+          type: true,
+          imports: [
+            {
+              name: 'H3Event',
+              as: 'H3Event',
+            },
+          ],
+        },
+        {
+          from: 'zod',
+          imports: [
+            {
+              name: 'z',
+              as: 'z',
+            },
+          ],
+        },
+        {
+          from: 'zod',
+          type: true,
+          imports: [
+            {
+              name: 'infer',
+              as: 'zinfer',
+            },
+          ],
+        },
+      ],
+    },
+  },
 })

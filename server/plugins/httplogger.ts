@@ -1,4 +1,3 @@
-import { H3Event } from 'h3'
 import { generateRandomString, alphabet } from 'oslo/crypto'
 
 export default defineNitroPlugin((nitroApp) => {
