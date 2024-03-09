@@ -13,8 +13,8 @@ export type APIUserGetInput = zinfer<typeof inputFormat>
 export type APIUserGetOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = validateQuery(event, inputFormat)
-  const { db, isAdmin } = getContext(event)
+  const { db, isAdmin, validateInput } = getContext(event)
+  const input = await validateInput(inputFormat)
   await checkAuthorized(isAdmin)
   const users = await db.query.userTable.findMany({
     with: {

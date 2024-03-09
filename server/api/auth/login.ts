@@ -13,9 +13,9 @@ export type APIAuthLoginInput = zinfer<typeof inputFormat>
 export type APIAuthLoginOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = await validateBody(event, inputFormat)
+  const { db, validateInput } = getContext(event)
+  const input = await validateInput(inputFormat)
   const { username, password } = input
-  const { db } = event.context
 
   const user = await db.query.userTable.findFirst({
     where: (users, { eq }) => eq(users.username, username),

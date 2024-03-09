@@ -14,8 +14,9 @@ const outputFormat = z.object({
 export type APIHelloGetInput = zinfer<typeof inputFormat>
 export type APIHelloGetOutput = zinfer<typeof outputFormat>
 
-export default defineEventHandler((event: H3Event) => {
-  const input = validateQuery(event, inputFormat)
+export default defineEventHandler(async (event: H3Event) => {
+  const { validateInput } = getContext(event)
+  const input = await validateInput(inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
   return validateOutput(myOutput, outputFormat)
 })
