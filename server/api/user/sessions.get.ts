@@ -14,13 +14,13 @@ export type APISessionsByUserIdInput = zinfer<typeof inputFormat>
 export type APISessionsByUserIdOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = useValidatedQuery(event, inputFormat)
+  const input = validateQuery(event, inputFormat)
   const { db, isAdmin } = getContext(event)
   const isMyUser = input.userId === event.context?.user?.id
   await checkAuthorized(() => isAdmin() || isMyUser)
   const sessions = await db.query.sessionTable.findMany({
     where: (sessions, { eq }) => eq(sessions.userId, input.userId),
   })
-  const output = useValidatedOutput(sessions, outputFormat)
+  const output = validateOutput(sessions, outputFormat)
   return output
 })

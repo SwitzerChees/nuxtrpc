@@ -13,7 +13,7 @@ export type APIAuthLoginInput = zinfer<typeof inputFormat>
 export type APIAuthLoginOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = await useValidatedBody(event, inputFormat)
+  const input = await validateBody(event, inputFormat)
   const { username, password } = input
   const { db } = event.context
 
@@ -35,5 +35,5 @@ export default defineEventHandler(async (event: H3Event) => {
   }
   const { createUserSession } = useUserSession()
   await createUserSession(event, user)
-  return useValidatedOutput(input, outputFormat)
+  return validateOutput(input, outputFormat)
 })

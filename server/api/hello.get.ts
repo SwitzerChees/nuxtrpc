@@ -15,7 +15,7 @@ export type APIHelloGetInput = zinfer<typeof inputFormat>
 export type APIHelloGetOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler((event: H3Event) => {
-  const input = useValidatedQuery(event, inputFormat)
+  const input = validateQuery(event, inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
-  return useValidatedOutput(myOutput, outputFormat)
+  return validateOutput(myOutput, outputFormat)
 })

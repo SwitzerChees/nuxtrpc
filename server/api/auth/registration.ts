@@ -15,7 +15,7 @@ export type APIAuthRegistrationInput = zinfer<typeof inputFormat>
 export type APIAuthRegistrationOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const input = await useValidatedBody(event, inputFormat)
+  const input = await validateBody(event, inputFormat)
   const { db } = event.context
   const { username, password, passwordConfirmation } = input
   if (password !== passwordConfirmation) {
@@ -48,5 +48,5 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'error.registration.user.failed',
     })
   }
-  return useValidatedOutput(input, outputFormat)
+  return validateOutput(input, outputFormat)
 })

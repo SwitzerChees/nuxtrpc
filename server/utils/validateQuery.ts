@@ -1,17 +1,22 @@
-import { H3Event, getRouterParams } from 'h3'
+import { parse as superparse } from 'superjson'
 import * as zod from 'zod'
 import { z } from 'zod'
 import type { ParseOptions, ParsedData, ValidationSchema } from '~/types'
 
-export default function useValidatedParams<T extends ValidationSchema | z.ZodRawShape>(
+export default function validateQuery<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
   schema: T,
   parseOptions?: ParseOptions,
 ): ParsedData<T> {
   try {
-    const params = getRouterParams(event)
+    const rawQuery = getQuery(event) as any
+    const cleanQuery = {
+      json: rawQuery.json ? JSON.parse(rawQuery.json) : {},
+      meta: rawQuery.meta ? JSON.parse(rawQuery.meta) : undefined,
+    }
+    const query = superparse(JSON.stringify(cleanQuery))
     const finalSchema = schema instanceof z.ZodType ? schema : z.object(schema)
-    const parsed = finalSchema.parse(params, parseOptions)
+    const parsed = finalSchema.parse(query, parseOptions)
     return parsed
   } catch (error) {
     throw createError({

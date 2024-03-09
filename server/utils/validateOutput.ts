@@ -4,7 +4,7 @@ import * as zod from 'zod'
 import { z } from 'zod'
 import type { ParseOptions } from '~/types'
 
-export default function useValidatedOutput<T extends zod.ZodType<any, any>>(
+export default function validateOutput<T extends zod.ZodType<any, any>>(
   output: z.infer<T>,
   schema: T,
   parseOptions?: ParseOptions,
