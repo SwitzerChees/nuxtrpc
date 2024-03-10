@@ -5,7 +5,7 @@ const inputFormat = z.object({
   filter: z.string().optional(),
   limit: z.number().min(1).max(100).default(10).optional(),
   offset: z.number().min(0).default(0).optional(),
-  orderBy: z.enum(['username']).optional(),
+  orderBy: z.enum(['username']).default('username').optional(),
   orderByASC: z.boolean().default(true).optional(),
   posts: z.boolean().optional(),
 })
@@ -29,7 +29,8 @@ export default defineEventHandler(async (event: H3Event) => {
   await checkAuthorized(isAdmin)
 
   const usernameFilter = input.filter ? ilike(userTable.username, `%${input.filter}%`) : undefined
-  const orderBy = input.orderByASC ? asc(userTable[input.orderBy || 'username']) : desc(userTable[input.orderBy || 'username'])
+  const orderByColumn = userTable[input.orderBy || 'username']
+  const orderBy = input.orderByASC ? asc(orderByColumn) : desc(orderByColumn)
   const totalUsersResult = await db
     .select({ value: count(userTable.id) })
     .from(userTable)
