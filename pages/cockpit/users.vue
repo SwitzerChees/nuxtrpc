@@ -2,25 +2,37 @@
   <div class="flex grow">
     <DataTable
       v-model:selection="selectedUser"
-      :value="users"
+      :value="data?.users"
       class="grow"
       highlight-on-select
       selection-mode="single"
       scrollable
       :scroll-height="'calc(100vh - 120px)'"
       paginator
-      :rows="10"
+      :rows="input.limit"
+      lazy
+      :rows-per-page-options="[10, 25, 50]"
+      :total-records="data?.total"
+      paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+      :current-page-report-template="`{first} ${$t('to')} {last} ${$t('of')} {totalRecords}`"
       striped-rows
       sort-mode="single"
       sort-field="username"
-      :sort-order="1">
+      :sort-order="1"
+      @page="paginate">
       <template #header>
-        <h1 class="text-2xl font-bold">Users</h1>
+        <div class="flex justify-between">
+          <h1 class="text-2xl font-bold">Users</h1>
+          <IconField icon-position="left">
+            <InputIcon><Icon name="material-symbols:search" /></InputIcon>
+            <InputText v-model="input.filter" placeholder="Search" />
+          </IconField>
+        </div>
       </template>
       <Column field="id" header="ID" sortable class="truncate max-w-20"></Column>
       <Column field="username" header="Username" class="truncate" sortable></Column>
-      <template #expansion="{ data }">
-        <UserSessions :user-id="data.id" />
+      <template #expansion="{ data: user }">
+        <UserSessions :user-id="user.id" />
       </template>
     </DataTable>
     <UserDetails
@@ -38,6 +50,23 @@
     layout: 'cockpit',
   })
 
-  const { data: users } = useAPI(APIRoutes.User.Get)
   const selectedUser = ref<{ id: number } | undefined>()
+
+  const input = reactive<typeof APIRoutes.User.Get.Input>({ filter: '', limit: 10, offset: 0 })
+  watch(
+    () => input.filter,
+    () => (input.offset = 0),
+  )
+
+  const { data, execute } = useAPI(APIRoutes.User.Get, {
+    input,
+    watch: [() => input.filter],
+    watchDebounce: 300,
+  })
+
+  const paginate = (e: { page: number; rows: number }) => {
+    input.offset = e.page * e.rows
+    input.limit = e.rows
+    execute()
+  }
 </script>
