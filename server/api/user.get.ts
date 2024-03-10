@@ -1,4 +1,4 @@
-import { count } from 'drizzle-orm'
+import { count, ilike } from 'drizzle-orm'
 import { userTable } from '../database/schema'
 
 const inputFormat = z.object({
@@ -25,15 +25,18 @@ export default defineEventHandler(async (event: H3Event) => {
   const { db, isAdmin, validateInput } = getContext(event)
   const input = await validateInput(inputFormat)
   await checkAuthorized(isAdmin)
-  const totalUsers = (await db.select({ value: count(userTable.id) }).from(userTable))[0].value || 0
+
+  const usernameFilter = input.filter ? ilike(userTable.username, `%${input.filter}%`) : undefined
+  const totalUsersResult = await db
+    .select({ value: count(userTable.id) })
+    .from(userTable)
+    .where(usernameFilter)
+  const totalUsers = totalUsersResult[0].value || 0
+
   const users = await db.query.userTable.findMany({
     limit: input.limit,
     offset: input.offset,
-    where: (users, { ilike }) => {
-      if (input.filter) {
-        return ilike(users.username, `%${input.filter}%`)
-      }
-    },
+    where: usernameFilter,
     with: {
       posts: input.posts || undefined,
     },
