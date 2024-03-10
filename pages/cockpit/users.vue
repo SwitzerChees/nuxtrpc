@@ -13,13 +13,16 @@
       lazy
       :rows-per-page-options="[10, 25, 50]"
       :total-records="data?.total"
+      :first="input.offset"
+      :sort-field="input.orderBy"
+      :sort-order="input.orderByASC ? 1 : -1"
       paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
       :current-page-report-template="`{first} ${$t('to')} {last} ${$t('of')} {totalRecords}`"
       striped-rows
       sort-mode="single"
-      sort-field="username"
-      :sort-order="1"
-      @page="paginate">
+      @page="paginate"
+      @update:sort-field="input.orderBy = $event"
+      @update:sort-order="input.orderByASC = $event === 1">
       <template #header>
         <div class="flex justify-between">
           <h1 class="text-2xl font-bold">Users</h1>
@@ -29,7 +32,7 @@
           </IconField>
         </div>
       </template>
-      <Column field="id" header="ID" sortable class="truncate max-w-20"></Column>
+      <Column field="id" header="ID" class="truncate max-w-20"></Column>
       <Column field="username" header="Username" class="truncate" sortable></Column>
       <template #expansion="{ data: user }">
         <UserSessions :user-id="user.id" />
@@ -52,11 +55,21 @@
 
   const selectedUser = ref<{ id: number } | undefined>()
 
-  const input = reactive<typeof APIRoutes.User.Get.Input>({ filter: '', limit: 10, offset: 0 })
+  const input = reactive<typeof APIRoutes.User.Get.Input>({
+    filter: '',
+    limit: 10,
+    offset: 0,
+    orderBy: 'username',
+    orderByASC: true,
+  })
   watch(
     () => input.filter,
     () => (input.offset = 0),
   )
+  watch([() => input.orderBy, () => input.orderByASC], () => {
+    input.offset = 0
+    execute()
+  })
 
   const { data, execute } = useAPI(APIRoutes.User.Get, {
     input,
