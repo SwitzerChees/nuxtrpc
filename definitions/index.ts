@@ -1,4 +1,4 @@
 export * from './constants'
 export * from './types'
-export * from './Routes2'
+export * from './routes'
 export * from './h3'
