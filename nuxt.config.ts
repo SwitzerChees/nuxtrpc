@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   imports: {
     presets: [
       {
-        from: '~/types',
+        from: '~/definitions',
         imports: [
           {
             name: 'APIRoutes',

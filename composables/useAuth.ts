@@ -1,5 +1,5 @@
 import type { SuperJSONResult } from 'superjson'
-import { type User } from '~/types'
+import { type User } from '~/definitions'
 
 export const useAuth = () => {
   const user = useMyUser()

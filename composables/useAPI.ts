@@ -2,7 +2,7 @@ import type { ToastMessageOptions } from 'primevue/toast'
 import type { WatchSource } from 'vue'
 import type { FetchError } from 'ofetch'
 import { parse, serialize } from 'superjson'
-import type { BaseAPIRoute } from '~/types'
+import type { BaseAPIRoute } from '~/definitions'
 
 type APIOpts = {
   successToast?: ToastMessageOptions

@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 import { generateRandomString, alphabet, sha256 } from 'oslo/crypto'
 import { encodeHex } from 'oslo/encoding'
 import { type UserSelect, type SessionSelect, sessionTable } from '~/server/database/schema'
-import type { User } from '~/types'
+import type { User } from '~/definitions'
 
 const get = async (event: H3Event) => {
   const {

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { type UserRole, UserRoles, type ValidationSchema } from '~/types'
+import { type UserRole, UserRoles, type ValidationSchema } from '~/definitions'
 
 const get = (event: H3Event) => {
   const hasRole = (role: UserRole) => {

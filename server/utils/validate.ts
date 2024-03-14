@@ -2,7 +2,7 @@ import { H3Event, readRawBody } from 'h3'
 import { type SuperJSONResult, parse, serialize } from 'superjson'
 import * as zod from 'zod'
 import { z } from 'zod'
-import type { ParseOptions, ParsedData, ValidationSchema } from '~/types'
+import type { ParseOptions, ParsedData, ValidationSchema } from '~/definitions'
 
 async function validateBody<T extends ValidationSchema | z.ZodRawShape>(
   event: H3Event,
