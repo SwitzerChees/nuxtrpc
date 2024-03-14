@@ -11,14 +11,14 @@ let _db: NodePgDatabase<typeof schema>
 
 const useDrizzle = () => {
   if (!_pool) {
-    const { database } = useEnv()
+    const { database } = env.config()
     // eslint-disable-next-line import/no-named-as-default-member
     _pool = new pg.Pool(database)
   }
   const connect = async () => {
     await _pool.connect()
     const logger = useLogger()
-    const { logLevel } = useEnv()
+    const { logLevel } = env.config()
     let totalQueries = 0
     const individualQueriesCounter: Record<string, number> = {}
     class DrizzleLogWriter implements LogWriter {
@@ -46,7 +46,7 @@ const useDrizzle = () => {
   const migration = async () => {
     const {
       database: { migrationsFolder },
-    } = useEnv()
+    } = env.config()
     // check if migration folder exists
     if (!existsSync(migrationsFolder)) {
       await fs.mkdir(migrationsFolder, { recursive: true })

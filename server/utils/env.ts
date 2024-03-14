@@ -18,7 +18,7 @@ let _env: {
   }
 } | null = null
 
-const useEnv = () => {
+const config = () => {
   if (_env) return _env
   const env = process.env.NODE_ENV || 'development'
   const isDev = env !== 'production'
@@ -42,4 +42,4 @@ const useEnv = () => {
   _env = { env, isDev, isProd, logLevel, session, database }
   return _env
 }
-export default useEnv
+export default { config }

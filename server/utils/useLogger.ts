@@ -4,7 +4,7 @@ let _logger: pino.Logger
 
 const useLogger = () => {
   if (!_logger) {
-    const { logLevel } = useEnv()
+    const { logLevel } = env.config()
 
     _logger = pino({
       level: logLevel,

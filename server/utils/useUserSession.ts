@@ -8,7 +8,7 @@ const useUserSession = () => {
   const getUserSession = async (event: H3Event) => {
     const {
       session: { cookieName },
-    } = useEnv()
+    } = env.config()
     const sessionToken = getCookie(event, cookieName)
     if (!sessionToken) return { session: undefined, user: undefined }
     const { db } = getContext(event)
@@ -39,7 +39,7 @@ const useUserSession = () => {
   }
   const createUserSession = async (event: H3Event, user: UserSelect) => {
     const { db } = getContext(event)
-    const { session } = useEnv()
+    const { session } = env.config()
     const tokenData = new TextEncoder().encode(generateRandomString(64, alphabet('a-z', '0-9', 'A-Z')))
     const token = encodeHex(await sha256(tokenData))
     await db
@@ -58,7 +58,7 @@ const useUserSession = () => {
     if (!session) return
     const {
       session: { timeoutDays, refreshDays },
-    } = useEnv()
+    } = env.config()
     if (session.expiresAt.getTime() - Date.now() > refreshDays) return
     session.expiresAt = new Date(Date.now() + timeoutDays)
     await db.update(sessionTable).set({ expiresAt: session.expiresAt }).where(eq(sessionTable.id, session.id))
@@ -69,7 +69,7 @@ const useUserSession = () => {
     const {
       isProd,
       session: { cookieName, timeoutDays },
-    } = useEnv()
+    } = env.config()
     const timeoutSeconds = timeoutDays / 1000
     setCookie(event, cookieName, token, { maxAge: timeoutSeconds, secure: isProd, httpOnly: isProd, sameSite: 'lax' })
   }
@@ -81,7 +81,7 @@ const useUserSession = () => {
     }
     const {
       session: { cookieName },
-    } = useEnv()
+    } = env.config()
     setCookie(event, cookieName, '', { maxAge: 0 })
   }
 
