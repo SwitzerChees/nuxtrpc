@@ -28,19 +28,19 @@ export default defineEventHandler(async (event: H3Event) => {
   const input = await validateInput(inputFormat)
   await checkAuthorized(isAdmin)
 
-  const usernameFilter = input.filter ? ilike(userTable.username, `%${input.filter}%`) : undefined
+  const whereUsername = input.filter ? ilike(userTable.username, `%${input.filter}%`) : undefined
   const orderByColumn = userTable[input.orderBy || 'username']
   const orderBy = input.orderByASC ? asc(orderByColumn) : desc(orderByColumn)
   const totalUsersResult = await db
     .select({ value: count(userTable.id) })
     .from(userTable)
-    .where(usernameFilter)
+    .where(whereUsername)
   const totalUsers = totalUsersResult[0].value || 0
 
   const users = await db.query.userTable.findMany({
     limit: input.limit,
     offset: input.offset,
-    where: usernameFilter,
+    where: whereUsername,
     orderBy,
     with: {
       posts: input.posts || undefined,
