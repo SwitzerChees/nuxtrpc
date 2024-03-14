@@ -15,7 +15,7 @@ export type APIAuthRegistrationInput = zinfer<typeof inputFormat>
 export type APIAuthRegistrationOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { db, validateInput } = getContext(event)
+  const { db, validateInput } = context.get(event)
   const input = await validateInput(inputFormat)
   const { username, password, passwordConfirmation } = input
   if (password !== passwordConfirmation) {

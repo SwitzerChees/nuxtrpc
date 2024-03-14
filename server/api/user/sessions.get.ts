@@ -14,7 +14,7 @@ export type APISessionsByUserIdInput = zinfer<typeof inputFormat>
 export type APISessionsByUserIdOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { db, isAdmin, validateInput, user } = getContext(event)
+  const { db, isAdmin, validateInput, user } = context.get(event)
   const input = await validateInput(inputFormat)
   const isMyUser = input.userId === user?.id
   await checkAuthorized(() => isAdmin() || isMyUser)

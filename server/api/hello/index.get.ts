@@ -15,7 +15,7 @@ export type APIHelloGetInput = zinfer<typeof inputFormat>
 export type APIHelloGetOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { validateInput } = getContext(event)
+  const { validateInput } = context.get(event)
   const input = await validateInput(inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
   return validate.output(myOutput, outputFormat)

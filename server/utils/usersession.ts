@@ -10,7 +10,7 @@ const get = async (event: H3Event) => {
   } = env.config()
   const sessionToken = getCookie(event, cookieName)
   if (!sessionToken) return { session: undefined, user: undefined }
-  const { db } = getContext(event)
+  const { db } = context.get(event)
   const session = await db.query.sessionTable.findFirst({
     where: (session, { eq }) => eq(session.token, sessionToken),
     with: {
@@ -37,7 +37,7 @@ const get = async (event: H3Event) => {
   return userSession
 }
 const create = async (event: H3Event, user: UserSelect) => {
-  const { db } = getContext(event)
+  const { db } = context.get(event)
   const { session } = env.config()
   const tokenData = new TextEncoder().encode(generateRandomString(64, alphabet('a-z', '0-9', 'A-Z')))
   const token = encodeHex(await sha256(tokenData))
@@ -53,7 +53,7 @@ const create = async (event: H3Event, user: UserSelect) => {
 }
 
 const refresh = async (event: H3Event) => {
-  const { session, db } = getContext(event)
+  const { session, db } = context.get(event)
   if (!session) return
   const {
     session: { timeoutDays, refreshDays },
@@ -74,7 +74,7 @@ const setSessionCookie = (event: H3Event, token: string) => {
 }
 
 const remove = async (event: H3Event) => {
-  const { session, db } = getContext(event)
+  const { session, db } = context.get(event)
   if (session) {
     await db.delete(sessionTable).where(eq(sessionTable.id, session.id))
   }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { type UserRole, UserRoles, type ValidationSchema } from '~/types'
 
-const getContext = (event: H3Event) => {
+const get = (event: H3Event) => {
   const hasRole = (role: UserRole) => {
     const user = event.context.user
     if (!user) return false
@@ -17,4 +17,4 @@ const getContext = (event: H3Event) => {
 
   return { ...event.context, hasRole, isAdmin, validateInput }
 }
-export default getContext
+export default { get }
