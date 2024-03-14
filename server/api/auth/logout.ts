@@ -6,5 +6,5 @@ export type APIAuthLogoutOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
   await usersession.remove(event)
-  return validateOutput({ success: true }, outputFormat)
+  return validate.output({ success: true }, outputFormat)
 })

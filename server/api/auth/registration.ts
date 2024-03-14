@@ -48,5 +48,5 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'error.registration.user.failed',
     })
   }
-  return validateOutput(input, outputFormat)
+  return validate.output(input, outputFormat)
 })

@@ -10,7 +10,7 @@ export type APIHelloByNameInput = zinfer<typeof inputFormat>
 export type APIHelloByNameOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler((event: H3Event) => {
-  const input = validateParams(event, inputFormat)
+  const input = validate.params(event, inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
-  return validateOutput(myOutput, outputFormat)
+  return validate.output(myOutput, outputFormat)
 })

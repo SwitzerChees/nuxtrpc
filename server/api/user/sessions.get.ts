@@ -21,6 +21,6 @@ export default defineEventHandler(async (event: H3Event) => {
   const sessions = await db.query.sessionTable.findMany({
     where: (sessions, { eq }) => eq(sessions.userId, input.userId),
   })
-  const output = validateOutput(sessions, outputFormat)
+  const output = validate.output(sessions, outputFormat)
   return output
 })

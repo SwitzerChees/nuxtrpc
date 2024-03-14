@@ -9,8 +9,8 @@ const getContext = (event: H3Event) => {
   }
 
   const validateInput = <T extends ValidationSchema | z.ZodRawShape>(schema: T) => {
-    if (event.method === 'GET') return validateQuery(event, schema)
-    return validateBody(event, schema)
+    if (event.method === 'GET') return validate.query(event, schema)
+    return validate.body(event, schema)
   }
 
   const isAdmin = () => hasRole(UserRoles.Admin)

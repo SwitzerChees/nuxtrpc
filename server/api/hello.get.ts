@@ -18,5 +18,5 @@ export default defineEventHandler(async (event: H3Event) => {
   const { validateInput } = getContext(event)
   const input = await validateInput(inputFormat)
   const myOutput = { hello: `Hello, ${input.name}!` }
-  return validateOutput(myOutput, outputFormat)
+  return validate.output(myOutput, outputFormat)
 })

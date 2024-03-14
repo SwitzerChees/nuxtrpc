@@ -10,5 +10,5 @@ export default defineEventHandler((event: H3Event) => {
   const { user } = event.context
   if (!user) return null
 
-  return validateOutput(user, outputFormat)
+  return validate.output(user, outputFormat)
 })

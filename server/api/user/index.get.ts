@@ -46,5 +46,5 @@ export default defineEventHandler(async (event: H3Event) => {
       posts: input.posts || undefined,
     },
   })
-  return validateOutput({ total: totalUsers, users }, outputFormat)
+  return validate.output({ total: totalUsers, users }, outputFormat)
 })

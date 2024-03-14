@@ -34,5 +34,5 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
   await usersession.create(event, user)
-  return validateOutput(input, outputFormat)
+  return validate.output(input, outputFormat)
 })
