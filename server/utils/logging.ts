@@ -2,7 +2,7 @@ import pino from 'pino'
 
 let _logger: pino.Logger
 
-const useLogger = () => {
+const logger = () => {
   if (!_logger) {
     const { logLevel } = env.config()
 
@@ -18,4 +18,4 @@ const useLogger = () => {
   }
   return _logger
 }
-export default useLogger
+export default { logger }

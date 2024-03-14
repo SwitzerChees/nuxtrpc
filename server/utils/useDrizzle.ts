@@ -17,7 +17,7 @@ const useDrizzle = () => {
   }
   const connect = async () => {
     await _pool.connect()
-    const logger = useLogger()
+    const logger = logging.logger()
     const { logLevel } = env.config()
     let totalQueries = 0
     const individualQueriesCounter: Record<string, number> = {}

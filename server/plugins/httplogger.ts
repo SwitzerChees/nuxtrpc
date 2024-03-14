@@ -1,7 +1,7 @@
 import { generateRandomString, alphabet } from 'oslo/crypto'
 
 export default defineNitroPlugin((nitroApp) => {
-  const httpLogger = useLogger().child({ component: 'nitro' })
+  const httpLogger = logging.logger().child({ component: 'nitro' })
   nitroApp.hooks.hook('request', (event: H3Event) => {
     const pathWithoutQuery = event.path.split('?')[0]
     event.context.request = {
