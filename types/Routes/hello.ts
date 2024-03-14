@@ -1,6 +1,6 @@
 import type { APIMethod } from '.'
-import type { APIHelloGetOutput, APIHelloGetInput } from '~/server/api/hello.get'
-import type { APIHelloPostInput, APIHelloPostOutput } from '~/server/api/hello.post'
+import type { APIHelloGetOutput, APIHelloGetInput } from '~/server/api/hello/index.get'
+import type { APIHelloPostInput, APIHelloPostOutput } from '~/server/api/hello/index.post'
 import type { APIHelloByNameInput, APIHelloByNameOutput } from '~/server/api/hello/[name]'
 
 const Hello = {
