@@ -9,9 +9,7 @@ const useFormatedError = (error: Error) => {
     let detail = ''
     if ('data' in error) {
       const zodError = { issues: error.data } as unknown as zod.ZodError
-      for (const issue of zodError.issues) {
-        detail += `${issue.path.join('.')} ${issue.code}\n`
-      }
+      detail = zodError.issues.map((issue) => issue.message).join('\n')
     }
     return { message: error.message, detail }
   }
