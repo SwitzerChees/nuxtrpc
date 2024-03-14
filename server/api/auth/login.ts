@@ -33,7 +33,6 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'error.login.password.invalid',
     })
   }
-  const { createUserSession } = useUserSession()
-  await createUserSession(event, user)
+  await usersession.create(event, user)
   return validateOutput(input, outputFormat)
 })

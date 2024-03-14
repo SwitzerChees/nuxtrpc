@@ -1,5 +1,5 @@
 import { asc, count, desc, ilike } from 'drizzle-orm'
-import { userTable } from '../database/schema'
+import { userTable } from '../../database/schema'
 
 const inputFormat = z.object({
   filter: z.string().optional(),

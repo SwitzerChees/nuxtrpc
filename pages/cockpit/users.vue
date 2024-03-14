@@ -34,9 +34,6 @@
       </template>
       <Column field="id" header="ID" class="truncate max-w-20"></Column>
       <Column field="username" header="Username" class="truncate" sortable></Column>
-      <template #expansion="{ data: user }">
-        <UserSessions :user-id="user.id" />
-      </template>
     </DataTable>
     <UserDetails
       :user-id="selectedUser?.id"

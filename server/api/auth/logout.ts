@@ -5,7 +5,6 @@ const outputFormat = z.object({
 export type APIAuthLogoutOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { removeUserSession } = useUserSession()
-  await removeUserSession(event)
+  await usersession.remove(event)
   return validateOutput({ success: true }, outputFormat)
 })

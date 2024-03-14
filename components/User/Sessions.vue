@@ -18,9 +18,8 @@
 <script setup lang="ts">
   const props = defineProps<{ userId: string }>()
 
-  const input = reactive(props)
   const { data: sessions } = useAPI(APIRoutes.User.Sessions, {
-    input,
-    watch: [input],
+    input: props,
+    watch: [props],
   })
 </script>

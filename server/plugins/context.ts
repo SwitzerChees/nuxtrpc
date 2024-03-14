@@ -5,10 +5,9 @@ export default defineNitroPlugin(async (nitroApp) => {
   // await migration()
   nitroApp.hooks.hook('request', async (event: H3Event) => {
     event.context.db = db
-    const { getUserSession, refreshUserSession } = useUserSession()
-    const { session, user } = await getUserSession(event)
+    const { session, user } = await usersession.get(event)
     event.context.user = user
     event.context.session = session
-    await refreshUserSession(event)
+    await usersession.refresh(event)
   })
 })
