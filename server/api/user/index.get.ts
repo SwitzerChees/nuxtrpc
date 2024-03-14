@@ -24,7 +24,7 @@ export type APIUserGetInput = zinfer<typeof inputFormat>
 export type APIUserGetOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler(async (event: H3Event) => {
-  const { db, isAdmin, validateInput } = context.get(event)
+  const { db, isAdmin, validateInput, checkAuthorized } = context.get(event)
   const input = await validateInput(inputFormat)
   await checkAuthorized(isAdmin)
 

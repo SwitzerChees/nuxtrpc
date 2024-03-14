@@ -13,8 +13,17 @@ const get = (event: H3Event) => {
     return validate.body(event, schema)
   }
 
+  const checkAuthorized = async (isAuthorized: () => Promise<boolean> | boolean) => {
+    if (!(await isAuthorized())) {
+      throw createError({
+        statusCode: 403,
+        message: 'error.unauthorized',
+      })
+    }
+  }
+
   const isAdmin = () => hasRole(UserRoles.Admin)
 
-  return { ...event.context, hasRole, isAdmin, validateInput }
+  return { ...event.context, hasRole, isAdmin, validateInput, checkAuthorized }
 }
 export default { get }
