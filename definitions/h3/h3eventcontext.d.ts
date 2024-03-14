@@ -2,7 +2,7 @@ import 'h3'
 import * as schema from '~/server/database/schema'
 import { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import pino from 'pino'
-import type { User } from '.'
+import type { User } from '..'
 
 declare module 'h3' {
   interface H3EventContext {
