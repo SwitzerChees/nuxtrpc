@@ -44,7 +44,7 @@
     layout: 'cockpit',
   })
 
-  const selectedUser = useSSRef<{ id?: string } | undefined>('users-dt-selected')
+  const selectedUser = useSSRef<(typeof APIRoutes.User.Get.Output.users)[0]>('users-dt-selected')
   const input = useSSReactive<typeof APIRoutes.User.Get.Input>('users-dt', {
     filter: '',
     limit: 10,
