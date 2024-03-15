@@ -48,18 +48,13 @@
   const selectedUser = useCookie<{ id?: number } | undefined>('users-dt-selected', {
     path: route.path,
   })
-  const input = reactive(
-    useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
-      default: () => ({
-        filter: '',
-        limit: 10,
-        offset: 0,
-        orderBy: 'username',
-        orderByASC: true,
-      }),
-      path: route.path,
-    }).value,
-  )
+  const input = useSSReactive<typeof APIRoutes.User.Get.Input>('users-dt', {
+    filter: '',
+    limit: 10,
+    offset: 0,
+    orderBy: 'username',
+    orderByASC: true,
+  })
 
   watch(
     () => input.filter,
