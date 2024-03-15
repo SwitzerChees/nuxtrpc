@@ -48,35 +48,37 @@
   const selectedUser = useCookie<{ id?: number } | undefined>('users-dt-selected', {
     path: route.path,
   })
-  const input = useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
-    default: () => ({
-      filter: '',
-      limit: 10,
-      offset: 0,
-      orderBy: 'username',
-      orderByASC: true,
-    }),
-    path: route.path,
-  })
+  const input = reactive(
+    useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
+      default: () => ({
+        filter: '',
+        limit: 10,
+        offset: 0,
+        orderBy: 'username',
+        orderByASC: true,
+      }),
+      path: route.path,
+    }).value,
+  )
 
   watch(
-    () => input.value.filter,
-    () => (input.value.offset = 0),
+    () => input.filter,
+    () => (input.offset = 0),
   )
-  watch([() => input.value.orderBy, () => input.value.orderByASC], () => {
-    input.value.offset = 0
+  watch([() => input.orderBy, () => input.orderByASC], () => {
+    input.offset = 0
     execute()
   })
 
   const { data, execute } = useAPI(APIRoutes.User.Get, {
-    input: input.value,
-    watch: [() => input.value.filter],
+    input,
+    watch: [() => input.filter],
     watchDebounce: 300,
   })
 
   const paginate = (e: { page: number; rows: number }) => {
-    input.value.offset = e.page * e.rows
-    input.value.limit = e.rows
+    input.offset = e.page * e.rows
+    input.limit = e.rows
     execute()
   }
 </script>
