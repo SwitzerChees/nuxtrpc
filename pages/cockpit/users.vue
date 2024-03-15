@@ -2,24 +2,16 @@
   <div class="flex grow">
     <DataTable
       v-model:selection="selectedUser"
+      v-bind="DefaultDatatableStyle"
       :value="data?.users"
       class="grow"
-      highlight-on-select
-      selection-mode="single"
-      scrollable
       :scroll-height="'calc(100vh - 120px)'"
-      paginator
       :rows="input.limit"
-      lazy
-      :rows-per-page-options="[10, 25, 50]"
       :total-records="data?.total"
       :first="input.offset"
       :sort-field="input.orderBy"
       :sort-order="input.orderByASC ? 1 : -1"
-      paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
       :current-page-report-template="`{first} ${$t('to')} {last} ${$t('of')} {totalRecords}`"
-      striped-rows
-      sort-mode="single"
       @page="paginate"
       @update:sort-field="input.orderBy = $event"
       @update:sort-order="input.orderByASC = $event === 1">
@@ -46,19 +38,26 @@
 </template>
 
 <script setup lang="ts">
+  import { DefaultDatatableStyle } from '~/definitions'
+
   definePageMeta({
     layout: 'cockpit',
   })
 
   const selectedUser = ref<{ id: number } | undefined>()
 
-  const input = reactive<typeof APIRoutes.User.Get.Input>({
-    filter: '',
-    limit: 10,
-    offset: 0,
-    orderBy: 'username',
-    orderByASC: true,
+  const cookieRef = useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
+    default: () => ({
+      filter: '',
+      limit: 10,
+      offset: 0,
+      orderBy: 'username',
+      orderByASC: true,
+    }),
+    path: '/cockpit/users',
   })
+
+  const input = reactive(cookieRef.value)
   watch(
     () => input.filter,
     () => (input.offset = 0),
