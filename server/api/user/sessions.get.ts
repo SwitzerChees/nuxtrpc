@@ -7,6 +7,10 @@ const outputFormat = z.array(
     id: z.string(),
     userId: z.string(),
     expiresAt: z.date(),
+    platform: z.string().nullable(),
+    browser: z.string().nullable(),
+    ip: z.string().nullable(),
+    userAgent: z.string().nullable(),
   }),
 )
 

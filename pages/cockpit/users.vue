@@ -24,7 +24,6 @@
           </IconField>
         </div>
       </template>
-      <Column field="id" header="ID" class="truncate max-w-20"></Column>
       <Column field="username" header="Username" class="truncate" sortable></Column>
     </DataTable>
     <UserDetails
@@ -32,7 +31,7 @@
       class="pl-4 overflow-hidden transition-all duration-300 ease-in-out"
       :class="{
         'w-0': !selectedUser,
-        'w-1/4': selectedUser,
+        'w-1/3': selectedUser,
       }" />
   </div>
 </template>

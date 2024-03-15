@@ -14,6 +14,10 @@ export const sessionTable = pgTable('sessions', {
     mode: 'date',
   }).notNull(),
   token: text('token').notNull(),
+  platform: text('platform'),
+  browser: text('browser'),
+  ip: text('ip'),
+  userAgent: text('user_agent'),
 })
 export const sessionsRelations = relations(sessionTable, ({ one }) => ({
   user: one(userTable, { fields: [sessionTable.userId], references: [userTable.id] }),

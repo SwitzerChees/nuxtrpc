@@ -6,8 +6,25 @@
     <template #empty>
       <div class="text-center text-red-400">No active Sessions.</div>
     </template>
-    <Column field="id" header="ID" sortable class="truncate max-w-20"></Column>
-    <Column field="expiresAt" header="Expires At" sortable class="truncate max-w-20">
+    <Column header="Device" class="max-w-20">
+      <template #body="{ data: { platform, browser, ip, userAgent } }">
+        <div class="flex flex-col">
+          <span v-if="platform" class="flex gap-1"
+            ><span class="font-semibold">{{ `${$t('platform')}:` }}</span> <span class="truncate">{{ platform }}</span></span
+          >
+          <span v-if="browser" class="flex gap-1"
+            ><span class="font-semibold">{{ `${$t('browser')}:` }}</span> <span class="truncate">{{ browser }}</span></span
+          >
+          <span v-if="ip" class="flex gap-1"
+            ><span class="font-semibold">{{ `${$t('ip')}:` }}</span> <span class="truncate">{{ ip }}</span></span
+          >
+          <span v-if="userAgent" class="flex gap-1"
+            ><span class="font-semibold">{{ `${$t('userAgent')}:` }}</span> <span class="truncate">{{ userAgent }}</span></span
+          >
+        </div>
+      </template>
+    </Column>
+    <Column field="expiresAt" header="Expires At" sortable class="truncate max-w-10">
       <template #body="{ data: { expiresAt } }">
         <span>{{ formatDate(expiresAt, true) }}</span>
       </template>

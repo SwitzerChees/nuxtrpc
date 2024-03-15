@@ -27,7 +27,7 @@ const get = async (event: H3Event) => {
   })
   if (!session) return { session: undefined, user: undefined }
   const userSession: { session: SessionSelect; user: User } = {
-    session: { id: session.id, userId: session.userId, expiresAt: session.expiresAt, token: session.token },
+    session,
     user: {
       id: session.user.id,
       username: session.user.username,
@@ -41,12 +41,21 @@ const create = async (event: H3Event, user: UserSelect) => {
   const { session } = env.config()
   const tokenData = new TextEncoder().encode(generateRandomString(64, alphabet('a-z', '0-9', 'A-Z')))
   const token = encodeHex(await sha256(tokenData))
+  const headers = getHeaders(event)
+  const platform = headers['sec-ch-ua-platform']?.replace(/"/g, '')
+  const browser = headers['sec-ch-ua']?.replace(/"/g, '')
+  const ip = headers['x-real-ip']?.replace(/"/g, '') || headers['x-forwarded-for']?.replace(/"/g, '')
+  const userAgent = headers['user-agent']?.replace(/"/g, '')
   await db
     .insert(sessionTable)
     .values({
       userId: user.id,
       token,
       expiresAt: new Date(Date.now() + session.timeoutDays),
+      platform,
+      browser,
+      ip,
+      userAgent,
     })
     .returning()
   setSessionCookie(event, token)
