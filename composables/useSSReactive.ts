@@ -4,10 +4,10 @@
  * @param input - The object to be made reactive
  * @returns Reactive object
  */
-export const useSSReactive = <T extends object>(key: string, input?: T) => {
+export const useSSReactive = <T extends object>(key: string, input: T) => {
   const route = useRoute()
   const cookie = useCookie<T>(key, {
-    default: () => input || ({} as T),
+    default: () => input,
     path: route.path,
   })
 

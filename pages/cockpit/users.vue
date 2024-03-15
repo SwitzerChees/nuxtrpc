@@ -44,10 +44,7 @@
     layout: 'cockpit',
   })
 
-  const route = useRoute()
-  const selectedUser = useCookie<{ id?: number } | undefined>('users-dt-selected', {
-    path: route.path,
-  })
+  const selectedUser = useSSRef<{ id?: string } | undefined>('users-dt-selected')
   const input = useSSReactive<typeof APIRoutes.User.Get.Input>('users-dt', {
     filter: '',
     limit: 10,
