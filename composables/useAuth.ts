@@ -1,5 +1,5 @@
 import type { SuperJSONResult } from 'superjson'
-import { type User } from '~/definitions'
+import { UserRoles, type User, type UserRole } from '~/definitions'
 
 export const useAuth = () => {
   const user = useMyUser()
@@ -12,5 +12,12 @@ export const useAuth = () => {
     return user
   }
 
-  return { fetchUser }
+  const hasRole = (role: UserRole) => {
+    if (!user.value) return false
+    return user.value.roles.includes(role)
+  }
+
+  const isAdmin = computed(() => hasRole(UserRoles.Admin))
+
+  return { fetchUser, hasRole, isAdmin }
 }
