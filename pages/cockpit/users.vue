@@ -56,24 +56,11 @@
     orderByASC: true,
   })
 
-  watch(
-    () => input.filter,
-    () => (input.offset = 0),
-  )
-  watch([() => input.orderBy, () => input.orderByASC], () => {
-    input.offset = 0
-    execute()
-  })
-
   const { data, execute } = useAPI(APIRoutes.User.Get, {
     input,
     watch: [() => input.filter],
     watchDebounce: 300,
   })
 
-  const paginate = (e: { page: number; rows: number }) => {
-    input.offset = e.page * e.rows
-    input.limit = e.rows
-    execute()
-  }
+  const { paginate } = usePaginate(input, execute)
 </script>
