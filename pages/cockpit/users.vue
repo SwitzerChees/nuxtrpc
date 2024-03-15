@@ -44,9 +44,12 @@
     layout: 'cockpit',
   })
 
-  const selectedUser = ref<{ id: number } | undefined>()
-
-  const cookieRef = useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
+  const route = useRoute()
+  const selectedUser = useCookie<{ id?: number } | undefined>('users-dt-selected', {
+    default: () => undefined,
+    path: route.path,
+  })
+  const input = useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
     default: () => ({
       filter: '',
       limit: 10,
@@ -54,28 +57,27 @@
       orderBy: 'username',
       orderByASC: true,
     }),
-    path: '/cockpit/users',
+    path: route.path,
   })
 
-  const input = reactive(cookieRef.value)
   watch(
-    () => input.filter,
-    () => (input.offset = 0),
+    () => input.value.filter,
+    () => (input.value.offset = 0),
   )
-  watch([() => input.orderBy, () => input.orderByASC], () => {
-    input.offset = 0
+  watch([() => input.value.orderBy, () => input.value.orderByASC], () => {
+    input.value.offset = 0
     execute()
   })
 
   const { data, execute } = useAPI(APIRoutes.User.Get, {
-    input,
-    watch: [() => input.filter],
+    input: input.value,
+    watch: [() => input.value.filter],
     watchDebounce: 300,
   })
 
   const paginate = (e: { page: number; rows: number }) => {
-    input.offset = e.page * e.rows
-    input.limit = e.rows
+    input.value.offset = e.page * e.rows
+    input.value.limit = e.rows
     execute()
   }
 </script>
