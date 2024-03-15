@@ -46,7 +46,6 @@
 
   const route = useRoute()
   const selectedUser = useCookie<{ id?: number } | undefined>('users-dt-selected', {
-    default: () => undefined,
     path: route.path,
   })
   const input = useCookie<typeof APIRoutes.User.Get.Input>('users-dt', {
