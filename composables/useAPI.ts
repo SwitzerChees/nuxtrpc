@@ -14,7 +14,9 @@ type APIOpts = {
   awaitable?: boolean
 }
 
-type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input'] ? {} : { input: TRoute['Input'] }
+type WithConditionalInput<TRoute extends BaseAPIRoute<unknown, unknown>> = unknown extends TRoute['Input']
+  ? {}
+  : { input: TRoute['Input'] | (() => TRoute['Input']) }
 
 export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   apiRoute: TRoute,
@@ -43,14 +45,16 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
         onRequest: ({ options }) => {
           options.headers = new Headers(opts.headers || options.headers || {})
           const canHaveBody = apiRoute.Method === 'POST' || apiRoute.Method === 'DELETE' || apiRoute.Method === 'PUT'
-          const body = canHaveBody && 'input' in opts ? opts.input : undefined
-          if (body) {
-            options.body = serialize(body)
+          let body = canHaveBody && 'input' in opts ? opts.input : undefined
+          if (typeof body === 'function') {
+            body = (body as () => typeof body)()
           }
-          const queryParams = apiRoute.Method === 'GET' && 'input' in opts ? opts.input : undefined
-          if (queryParams) {
-            options.params = serialize(queryParams)
+          if (body) options.body = serialize(body)
+          let queryParams = apiRoute.Method === 'GET' && 'input' in opts ? opts.input : undefined
+          if (typeof queryParams === 'function') {
+            queryParams = (queryParams as () => typeof queryParams)()
           }
+          if (queryParams) options.params = serialize(queryParams)
         },
         onRequestError: ({ error }) => {
           if (!error) return

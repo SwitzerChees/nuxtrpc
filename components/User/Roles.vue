@@ -33,8 +33,12 @@
     default: [],
   })
 
-  // useAPI(APIRoutes.User.Roles, {
-  //   watch: [() => selectedRoles],
-  //   immediate: false,
-  // })
+  useAPI(APIRoutes.User.Roles, {
+    input: () => ({
+      userId: props.userId,
+      roles: selectedRoles.value,
+    }),
+    watch: [selectedRoles],
+    immediate: false,
+  })
 </script>
