@@ -1,7 +1,12 @@
 <template>
   <div class="flex flex-col gap-2">
     <label for="roles">Roles</label>
-    <MultiSelect v-model="selectedRoles" :options="roles" placeholder="Select Roles" class="w-full md:w-20rem">
+    <MultiSelect
+      v-model="selectedRoles"
+      :options="roles"
+      placeholder="Select Roles"
+      :option-disabled="isMyUserAndAdmin"
+      class="w-full md:w-20rem">
       <template #option="{ option }">
         <span class="truncate">{{ $t(option.name) }}</span>
       </template>
@@ -15,12 +20,21 @@
 </template>
 
 <script setup lang="ts">
-  import type { UserRole } from '~/definitions'
+  import { UserRoles, type UserRole } from '~/definitions'
+  type Role = { id: string; name: UserRole }
 
-  const { roles } = defineProps<{ roles: UserRole[] }>()
+  const props = defineProps<{ userId: string; roles: Role[] }>()
+  const myUser = useMyUser()
+
+  const isMyUserAndAdmin = (role: Role) => myUser.value.id === props.userId && role.name === UserRoles.Admin
 
   const selectedRoles = defineModel({
-    type: Array as PropType<UserRole[]>,
+    type: Array<Role>,
     default: [],
   })
+
+  // useAPI(APIRoutes.User.Roles, {
+  //   watch: [() => selectedRoles],
+  //   immediate: false,
+  // })
 </script>

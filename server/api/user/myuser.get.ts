@@ -4,7 +4,7 @@ const outputFormat = z.object({
   roles: z.array(z.string()),
 })
 
-export type APIUserMyOuserOutput = zinfer<typeof outputFormat>
+export type APIUserMyUserOutput = zinfer<typeof outputFormat>
 
 export default defineEventHandler((event: H3Event) => {
   const { user } = event.context

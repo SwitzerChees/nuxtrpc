@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2">
     <h2 class="font-semibold truncate">{{ user?.username }}</h2>
     <Transition>
-      <UserRoles v-if="!isLoading && roles && user.roles" v-model="user.roles" :roles />
+      <UserRoles v-if="!isLoading && roles && user.roles" v-model="user.roles" :roles :user-id="user.id" />
     </Transition>
     <Transition>
       <UserSessions v-if="user?.id" :user-id="user.id" />
