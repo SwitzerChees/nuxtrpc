@@ -6,7 +6,8 @@
       :options="roles"
       :placeholder="$t('selectRoles')"
       :option-disabled="isMyUserAndAdmin"
-      :show-toggle-all="false">
+      :show-toggle-all="false"
+      @change="debouncedExecute">
       <template #option="{ option }">
         <span class="truncate">{{ $t(option.name) }}</span>
       </template>
@@ -32,12 +33,12 @@
     default: [],
   })
 
-  useAPI(APIRoutes.User.Roles, {
+  const { execute } = useAPI(APIRoutes.User.Roles, {
     input: () => ({
       userId: props.userId,
       roles: selectedRoles.value,
     }),
-    watch: [selectedRoles],
     immediate: false,
   })
+  const debouncedExecute = debounce(execute, 0)
 </script>

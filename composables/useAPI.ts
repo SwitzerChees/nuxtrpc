@@ -81,7 +81,7 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
 
   if (opts.watch) {
     const debounceTime = opts.watchDebounce || 0
-    const debouncedRefresh = debounce(asyncData.refresh, debounceTime)
+    const debouncedRefresh = debounce(asyncData.execute, debounceTime)
     watch(opts.watch, debouncedRefresh)
   }
 
