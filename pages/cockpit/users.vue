@@ -27,7 +27,7 @@
       <Column field="username" header="Username" class="truncate" sortable></Column>
       <Column field="roles" header="Roles" class="truncate max-w-14">
         <template #body="{ data: { roles } }">
-          <div v-if="roles.length" class="flex gap-1">
+          <div v-if="roles?.length" class="flex gap-1">
             <span v-for="role in roles" :key="role.id" class="p-1 px-2 truncate rounded bg-stone-700">{{ $t(role.name) }}</span>
           </div>
         </template>
@@ -50,7 +50,7 @@
     layout: 'cockpit',
   })
 
-  const selectedUser = useSSRef<(typeof APIRoutes.User.Get.Output.users)[0]>('users-dt-selected')
+  const selectedUser = ref<(typeof APIRoutes.User.Get.Output.users)[0]>()
   const input = useSSReactive<typeof APIRoutes.User.Get.Input>('users-dt', {
     filter: '',
     limit: 10,

@@ -48,7 +48,7 @@ export default defineEventHandler(async (event: H3Event) => {
       if (existingUserRole.userId === user?.id && isAdmin() && existingUserRole.role.name === UserRoles.Admin) {
         throw createError({
           statusCode: 400,
-          message: 'error.user.roles.removeownadmin',
+          message: 'error.user.removeownadminrole',
         })
       }
       await db.delete(userRoleTable).where(and(eq(userRoleTable.userId, input.userId), eq(userRoleTable.roleId, existingUserRole.roleId)))
