@@ -6,7 +6,6 @@
       :options="roles"
       :placeholder="$t('selectRoles')"
       :option-disabled="isMyUserAndAdmin"
-      :select-all="false"
       class="w-full md:w-20rem">
       <template #option="{ option }">
         <span class="truncate">{{ $t(option.name) }}</span>

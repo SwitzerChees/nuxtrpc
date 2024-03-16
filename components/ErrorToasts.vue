@@ -1,5 +1,15 @@
 <template>
-  <Toast :position="isMobile ? 'top-center' : 'top-right'" group="notification" />
+  <Toast :position="isMobile ? 'top-center' : 'top-right'" group="notification">
+    <template #container="{ message }">
+      <div class="flex items-center gap-2 p-2">
+        <Icon name="material-symbols:error" class="flex-shrink-0" size="1.5rem" />
+        <div class="flex flex-col gap-2">
+          <span class="font-semibold">{{ $t(message.summary) }}</span>
+          <span>{{ message.detail }}</span>
+        </div>
+      </div>
+    </template>
+  </Toast>
 </template>
 
 <script setup lang="ts">
@@ -8,14 +18,13 @@
   const toast = useToast()
   const nuxtApp = useNuxtApp()
   const { isMobile } = useDevice()
-  const { t } = useI18n()
 
   nuxtApp.hooks.hook('api:error' as any, (e: Error) => {
     const { message, detail } = useFormatedError(e)
     toast.add({
       severity: 'error',
       life: 5000,
-      summary: t(message),
+      summary: message,
       detail,
       group: 'notification',
     })

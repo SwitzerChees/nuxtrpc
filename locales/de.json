@@ -23,6 +23,8 @@
     }
   },
   "error": {
+    "unknown": "Unbekannter Fehler",
+    "network": "Netzwerkfehler",
     "login": {
       "invalidCredentials": "Ungültige Anmeldeinformationen"
     },
