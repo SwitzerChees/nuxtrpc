@@ -8,13 +8,14 @@
   const toast = useToast()
   const nuxtApp = useNuxtApp()
   const { isMobile } = useDevice()
+  const { t } = useI18n()
 
   nuxtApp.hooks.hook('api:error' as any, (e: Error) => {
     const { message, detail } = useFormatedError(e)
     toast.add({
       severity: 'error',
       life: 5000,
-      summary: message,
+      summary: t(message),
       detail,
       group: 'notification',
     })

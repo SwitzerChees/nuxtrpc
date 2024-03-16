@@ -16,5 +16,22 @@
   "platform": "Plattform",
   "userAgent": "User-Agent",
   "ip": "IP-Adresse",
-  "browser": "Browser"
+  "browser": "Browser",
+  "zod": {
+    "input": {
+      "invalid": "Ungültige Eingabe"
+    }
+  },
+  "error": {
+    "login": {
+      "invalidCredentials": "Ungültige Anmeldeinformationen"
+    },
+    "registration": {
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "userExists": "Benutzer existiert bereits"
+    },
+    "user": {
+      "removeownadminrole": "Sie können sich nicht selbst die Administratorrolle entziehen"
+    }
+  }
 }
