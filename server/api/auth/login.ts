@@ -23,14 +23,14 @@ export default defineEventHandler(async (event: H3Event) => {
   if (!user) {
     throw createError({
       statusCode: 400,
-      message: 'error.login.user.notExists',
+      message: 'error.login.invalidCredentials',
     })
   }
   const isPasswordValid = await new Argon2id().verify(user.password, password)
   if (!isPasswordValid) {
     throw createError({
       statusCode: 400,
-      message: 'error.login.password.invalid',
+      message: 'error.login.invalidCredentials',
     })
   }
   await usersession.create(event, user)

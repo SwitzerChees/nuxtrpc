@@ -21,7 +21,7 @@ export default defineEventHandler(async (event: H3Event) => {
   if (password !== passwordConfirmation) {
     throw createError({
       statusCode: 400,
-      message: 'error.registration.password.mismatch',
+      message: 'error.registration.passwordMismatch',
     })
   }
   let user = await db.query.userTable.findFirst({
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event: H3Event) => {
   if (user) {
     throw createError({
       statusCode: 400,
-      message: 'error.registration.user.exists',
+      message: 'error.registration.userExists',
     })
   }
   const hashedPassword = await new Argon2id().hash(password)
@@ -42,11 +42,5 @@ export default defineEventHandler(async (event: H3Event) => {
     })
     .returning()
   user = users[0]
-  if (!user) {
-    throw createError({
-      statusCode: 500,
-      message: 'error.registration.user.failed',
-    })
-  }
   return validate.output(input, outputFormat)
 })
