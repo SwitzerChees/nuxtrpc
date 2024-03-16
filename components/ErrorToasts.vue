@@ -5,7 +5,8 @@
         <Icon name="material-symbols:error" class="flex-shrink-0" size="1.5rem" />
         <div class="flex flex-col gap-2">
           <span class="font-semibold">{{ $t(message.summary) }}</span>
-          <span>{{ message.detail }}</span>
+          <span v-if="typeof message.detail === 'string'">{{ $t(message.detail) }}</span>
+          <FormatedIssues v-else-if="message.detail" :issues="message.detail" />
         </div>
       </div>
     </template>
@@ -20,12 +21,12 @@
   const { isMobile } = useDevice()
 
   nuxtApp.hooks.hook('api:error' as any, (e: Error) => {
-    const { message, detail } = useFormatedError(e)
+    const { message, details, issues } = useFormatedError(e)
     toast.add({
       severity: 'error',
       life: 5000,
       summary: message,
-      detail,
+      detail: details || issues,
       group: 'notification',
     })
   })

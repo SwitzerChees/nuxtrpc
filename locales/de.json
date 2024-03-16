@@ -1,4 +1,9 @@
 {
+  "login": "Anmelden",
+  "createAccount": "Konto erstellen",
+  "createNewAccount": "Neues Konto erstellen",
+  "toLogin": "Zum Anmelden",
+  "or": "oder",
   "admin": "Administrator",
   "manager": "Manager",
   "marketing": "Marketing",
@@ -6,6 +11,8 @@
   "noRoles": "Keine Rollen",
   "selectRoles": "Rollen auswählen",
   "username": "Benutzername",
+  "password": "Passwort",
+  "passwordConfirmation": "Passwort bestätigen",
   "allUsers": "Alle Benutzer",
   "search": "Suche",
   "activeSessions": "Aktive Sitzungen",
@@ -20,7 +27,8 @@
   "zod": {
     "input": {
       "invalid": "Ungültige Eingabe"
-    }
+    },
+    "too_small": "{path} ist zu klein. Muss mindestens {minimum} Zeichen lang sein."
   },
   "error": {
     "unknown": "Unbekannter Fehler",
