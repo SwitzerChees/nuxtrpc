@@ -25,7 +25,7 @@
         </div>
       </template>
       <Column field="username" :header="$t('username')" class="truncate" sortable></Column>
-      <Column field="roles" :header="$t('roles')" class="truncate max-w-14">
+      <Column field="roles" :header="$t('roles')" class="truncate max-w-24 min-w-24">
         <template #body="{ data: { roles } }">
           <div v-if="roles?.length" class="flex gap-1">
             <span v-for="role in roles" :key="role.id" class="p-1 px-2 truncate rounded bg-stone-700">{{ $t(role.name) }}</span>
