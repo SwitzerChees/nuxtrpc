@@ -2,7 +2,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const myUser = useMyUser()
   // Redirect to login if not logged in
   if (!myUser.value && !(to.name === 'login' || to.name === 'registration')) {
-    useCookie('redirect', { path: '/' }).value = to.fullPath
+    if (!to.fullPath.startsWith('_nuxt')) {
+      useCookie('redirect', { path: '/' }).value = to.fullPath
+    }
     return await navigateTo('/login', { replace: true })
   }
   // Redirect to home or last page if logged in and trying to access login
