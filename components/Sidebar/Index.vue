@@ -38,7 +38,7 @@
       </div>
     </div>
     <ul>
-      <SidebarMenuItem to="" title="Logout" icon="tabler:logout-2" :expanded="sidebarOpen" @click="logout()" />
+      <SidebarMenuItem to="" :title="$t('logout')" icon="tabler:logout-2" :expanded="sidebarOpen" @click="logout()" />
     </ul>
   </aside>
 </template>

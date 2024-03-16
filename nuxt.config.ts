@@ -31,8 +31,9 @@ export default defineNuxtConfig({
     cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
   },
   i18n: {
-    locales: ['de'],
+    locales: [{ code: 'de', iso: 'de-DE', file: 'de.json' }],
     defaultLocale: 'de',
+    langDir: 'locales/',
     strategy: 'no_prefix',
     compilation: {
       jit: true,

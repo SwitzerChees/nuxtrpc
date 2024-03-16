@@ -1,0 +1,20 @@
+{
+  "admin": "Administrator",
+  "manager": "Manager",
+  "marketing": "Marketing",
+  "roles": "Rollen",
+  "noRoles": "Keine Rollen",
+  "selectRoles": "Rollen auswählen",
+  "username": "Benutzername",
+  "allUsers": "Alle Benutzer",
+  "search": "Suche",
+  "activeSessions": "Aktive Sitzungen",
+  "noActiveSessions": "Keine aktiven Sitzungen",
+  "device": "Gerät",
+  "expiresAt": "Läuft ab",
+  "logout": "Abmelden",
+  "platform": "Plattform",
+  "userAgent": "User-Agent",
+  "ip": "IP-Adresse",
+  "browser": "Browser"
+}
