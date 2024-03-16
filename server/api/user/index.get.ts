@@ -7,7 +7,7 @@ const inputFormat = z.object({
   offset: z.number().min(0).default(0).optional(),
   orderBy: z.enum(['username']).default('username').optional(),
   orderByASC: z.boolean().default(true).optional(),
-  posts: z.boolean().optional(),
+  roles: z.boolean().default(false).optional(),
 })
 
 const outputFormat = z.object({
@@ -16,6 +16,14 @@ const outputFormat = z.object({
     z.object({
       id: z.string(),
       username: z.string(),
+      roles: z
+        .array(
+          z.object({
+            id: z.string(),
+            name: z.string(),
+          }),
+        )
+        .optional(),
     }),
   ),
 })
@@ -43,8 +51,16 @@ export default defineEventHandler(async (event: H3Event) => {
     where: whereUsername,
     orderBy,
     with: {
-      posts: input.posts || undefined,
+      userRoles: {
+        with: {
+          role: input.roles || undefined,
+        },
+      },
     },
   })
-  return validate.output({ total: totalUsers, users }, outputFormat)
+  const usersWithRoles = users.map((user) => ({
+    ...user,
+    roles: user.userRoles.map((userRole) => userRole.role),
+  }))
+  return validate.output({ total: totalUsers, users: usersWithRoles }, outputFormat)
 })

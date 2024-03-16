@@ -89,7 +89,7 @@ export const useAPI = <TRoute extends BaseAPIRoute<unknown, unknown>>(
   })
 
   return {
-    data: asyncData.data,
+    data: asyncData.data as TRoute['Output'] | undefined,
     error: asyncData.error,
     formatedError,
     isLoading,

@@ -2,6 +2,7 @@ import type { APIMethod } from '.'
 import type { APIAuthLoginInput, APIAuthLoginOutput } from '~/server/api/auth/login'
 import type { APIAuthRegistrationInput, APIAuthRegistrationOutput } from '~/server/api/auth/registration'
 import type { APIAuthLogoutOutput } from '~/server/api/auth/logout'
+import type { APIAuthRolesOutput } from '~/server/api/auth/roles'
 
 const Auth = {
   Login: {
@@ -20,6 +21,11 @@ const Auth = {
     Path: '/api/auth/logout',
     Method: 'POST' as APIMethod,
     Output: {} as APIAuthLogoutOutput,
+  },
+  Roles: {
+    Path: '/api/auth/roles',
+    Method: 'GET' as APIMethod,
+    Output: {} as APIAuthRolesOutput,
   },
 }
 

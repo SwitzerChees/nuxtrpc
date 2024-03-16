@@ -19,7 +19,7 @@
         <div class="flex justify-between">
           <h1 class="text-2xl font-bold">Users</h1>
           <IconField icon-position="left">
-            <InputIcon><Icon name="material-symbols:search" /></InputIcon>
+            <InputIcon class="flex items-center"><Icon name="material-symbols:search" /></InputIcon>
             <InputText v-model="input.filter" placeholder="Search" />
           </IconField>
         </div>
@@ -27,7 +27,7 @@
       <Column field="username" header="Username" class="truncate" sortable></Column>
     </DataTable>
     <UserDetails
-      :user-id="selectedUser?.id"
+      v-model="selectedUser"
       class="pl-4 overflow-hidden transition-all duration-300 ease-in-out"
       :class="{
         'w-0': !selectedUser,
@@ -50,6 +50,7 @@
     offset: 0,
     orderBy: 'username',
     orderByASC: true,
+    roles: true,
   })
 
   const { data, execute } = useAPI(APIRoutes.User.Get, {
