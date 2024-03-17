@@ -3,7 +3,7 @@ import type { APIUploadPostOutput } from '~/server/api/file/upload.post'
 
 const File = {
   Upload: {
-    Path: '/api/upload',
+    Path: '/api/file/upload',
     Method: 'POST' as APIMethod,
     Output: {} as APIUploadPostOutput,
   },
