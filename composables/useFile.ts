@@ -1,15 +1,18 @@
 import type { FileUploadUploaderEvent } from 'primevue/fileupload'
 import type { FetchError } from 'ofetch'
+import type { SuperJSONResult } from 'superjson'
+import type { ToastMessageOptions } from 'primevue/toast'
 
 type FileOpts = {
   onSuccess?: (data?: typeof APIRoutes.File.Upload.Output) => void
   onError?: (error?: FetchError) => void
+  successToast?: ToastMessageOptions
   errorToast?: boolean
 }
 export const useFile = (opts?: FileOpts) => {
   if (!opts) opts = {}
   if (opts.errorToast === undefined) opts.errorToast = true
-  const files = ref<File[]>([])
+  const files = ref<typeof APIRoutes.File.Upload.Output>([])
   const nuxtApp = useNuxtApp()
 
   const upload = async (event: FileUploadUploaderEvent) => {
@@ -33,12 +36,14 @@ export const useFile = (opts?: FileOpts) => {
         if (opts?.onError) opts.onError(responseError)
         if (opts?.errorToast) nuxtApp.hooks.callHook('api:error' as any, responseError)
       }
+
+      const result = ((await response.json()) as SuperJSONResult).json as typeof APIRoutes.File.Upload.Output
+      files.value.push(...result)
+      if (opts?.successToast) nuxtApp.hooks.callHook('api:success' as any, opts.successToast)
+      if (opts?.onSuccess) opts.onSuccess(result)
     } catch (error) {
       if (opts?.onError) opts.onError(error as any)
     }
-
-    // const result: typeof APIRoutes.Upload.Post.Output = await response.json()
-    // return result
   }
 
   return { upload, files }

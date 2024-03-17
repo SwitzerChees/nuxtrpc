@@ -7,6 +7,7 @@
         <p>Drag and drop files to here to upload.</p>
       </template>
     </FileUpload>
+    {{ files }}
   </div>
 </template>
 
@@ -35,7 +36,7 @@
     })
     return { isLoading: fetchPost.isLoading, helloData: fetchPost.data, reactiveInput }
   }
-  const { upload } = useFile({
+  const { upload, files } = useFile({
     onError: (error) => {
       // eslint-disable-next-line no-console
       console.error('onError', error)
