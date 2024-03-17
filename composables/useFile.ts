@@ -2,7 +2,7 @@ import type { FileUploadUploaderEvent } from 'primevue/fileupload'
 import type { FetchError } from 'ofetch'
 
 type FileOpts = {
-  onSuccess?: (data?: typeof APIRoutes.Upload.Post.Output) => void
+  onSuccess?: (data?: typeof APIRoutes.File.Upload.Output) => void
   onError?: (error?: FetchError) => void
   errorToast?: boolean
 }
@@ -23,7 +23,7 @@ export const useFile = (opts?: FileOpts) => {
     }
 
     try {
-      const response = await fetch(APIRoutes.Upload.Post.Path, {
+      const response = await fetch(APIRoutes.File.Upload.Path, {
         method: 'POST',
         body: formData,
       })

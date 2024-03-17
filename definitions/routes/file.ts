@@ -1,12 +1,12 @@
 import type { APIMethod } from '.'
-import type { APIUploadPostOutput } from '~/server/api/upload/index.post'
+import type { APIUploadPostOutput } from '~/server/api/file/upload.post'
 
-const Upload = {
-  Post: {
+const File = {
+  Upload: {
     Path: '/api/upload',
     Method: 'POST' as APIMethod,
     Output: {} as APIUploadPostOutput,
   },
 }
 
-export default Upload
+export default File
