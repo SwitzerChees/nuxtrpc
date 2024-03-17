@@ -24,6 +24,8 @@ const get = (event: H3Event) => {
 
   const isAdmin = () => hasRole(UserRoles.Admin)
 
-  return { ...event.context, hasRole, isAdmin, validateInput, checkAuthorized }
+  const isAuthenticated = () => !!event.context.user
+
+  return { ...event.context, hasRole, isAdmin, validateInput, checkAuthorized, isAuthenticated }
 }
 export default { get }

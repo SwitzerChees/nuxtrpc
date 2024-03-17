@@ -2,6 +2,11 @@
   <div class="flex flex-col items-center justify-center gap-2 grow">
     <h1 class="text-2xl font-bold">Users {{ isLoading || helloData?.hello }}</h1>
     <Button :disabled="isLoading" @click="reactiveInput.name = new Date().toISOString()">Refresh</Button>
+    <FileUpload :multiple="true" :auto="true" custom-upload mode="advanced" :max-file-size="1000000" @uploader="upload">
+      <template #empty>
+        <p>Drag and drop files to here to upload.</p>
+      </template>
+    </FileUpload>
   </div>
 </template>
 
@@ -30,4 +35,5 @@
     })
     return { isLoading: fetchPost.isLoading, helloData: fetchPost.data, reactiveInput }
   }
+  const { upload } = useUpload()
 </script>
