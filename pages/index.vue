@@ -35,5 +35,14 @@
     })
     return { isLoading: fetchPost.isLoading, helloData: fetchPost.data, reactiveInput }
   }
-  const { upload } = useUpload()
+  const { upload } = useFile({
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.error('onError', error)
+    },
+    onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('onSuccess', data)
+    },
+  })
 </script>
